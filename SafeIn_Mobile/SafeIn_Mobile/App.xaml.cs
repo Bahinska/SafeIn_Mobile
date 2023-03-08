@@ -1,6 +1,4 @@
 ﻿using System;
-using SafeIn_Mobile.Services;
-using SafeIn_Mobile.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,7 +11,6 @@ namespace SafeIn_Mobile
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }
 
