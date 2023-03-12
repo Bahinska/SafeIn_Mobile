@@ -22,13 +22,15 @@ namespace SafeIn_Mobile.ViewModels
         // Called by the views OnAppearing method
         public async void Init()
         {
-            var isAuthenticated = await _loginService.AuthCheck();
-            if (isAuthenticated)
+            var accessCheckResult = await _loginService.AccessCheckAsync();
+            if (accessCheckResult.Success)
             {
+                App.IsLoggedIn= true;
                 await _routingService.NavigateTo("///main");
             }
             else
             {
+                App.IsLoggedIn = false;
                 await _routingService.NavigateTo($"///{nameof(LoginPage)}");
             }
         }

@@ -8,8 +8,8 @@ namespace SafeIn_Mobile.Services
     public interface IUserService
     {
       
-        Task<IEnumerable<User>> GetUser();
-        Task<User> GetUser(int userId);
+        //Task<IEnumerable<User>> GetUser();
+        //Task<User> GetUser(int userId);
        
     }
 }

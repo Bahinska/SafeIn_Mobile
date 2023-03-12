@@ -9,6 +9,6 @@ namespace SafeIn_Mobile.Services
         void Logout();
         Task<RefreshTokenResult> RefreshTokensAsync();
         Task<LoginResult> LoginAsync(string email, string password);
-        Task<bool> AuthCheck();
+        Task<AccessCheckResult> AccessCheckAsync();
     }
 }

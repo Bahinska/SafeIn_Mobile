@@ -23,6 +23,16 @@ namespace SafeIn_Mobile.Views
             // Set the BindingContext of the page to the ViewModel
             BindingContext = ViewModel;
         }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            ViewModel.Dispose();
+        }
+        //protected override void OnAppearing()
+        //{
+        //    base.OnDisappearing();
+        //    ViewModel.StartTimer();
+        //}
         private UserViewModel ViewModel { get; set; }
 
     }

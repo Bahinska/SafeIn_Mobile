@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using QRCoder;
 using SafeIn_Mobile.Helpers;
 using SafeIn_Mobile.Services;
+using SafeIn_Mobile.Services.Navigation;
+using SafeIn_Mobile.Views;
 using Splat;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,9 +18,10 @@ namespace SafeIn_Mobile.ViewModels
 {
     public class UserViewModel : BaseViewModel, IDisposable
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
         private readonly ILoginService _loginService;
-
+        private readonly IRoutingService _navigationService;
+        public string ErrorMessage { get; set; }
         private ImageSource qrCode;
         public ImageSource QrCode
         {
@@ -32,12 +35,7 @@ namespace SafeIn_Mobile.ViewModels
             get => name;
             set => SetProperty(ref name, value);
         }
-        private string info;
-        public string Info
-        {
-            get => info;
-            set => SetProperty(ref info, value);
-        }
+
         private string email;
         public string Email
         {
@@ -61,38 +59,40 @@ namespace SafeIn_Mobile.ViewModels
 
         private Timer timer;
 
-        public UserViewModel(string name, string email, IUserService userService = null, ILoginService loginService = null)
+        public UserViewModel(string name, string email, IRoutingService navigationService = null, IUserService userService = null, ILoginService loginService = null)
         {
             _userService = userService ?? Locator.Current.GetService<IUserService>();
             _loginService = loginService ?? Locator.Current.GetService<ILoginService>();
+            _navigationService = navigationService ?? Locator.Current.GetService<IRoutingService>();
 
             this.name = name;
             this.email = email;
 
             GenerateQrCodeAsync();
         }
-
+     
         public async void GenerateQrCodeAsync()
         {
             var email = this.email;
             var accessRights = "User";
-            var accessToken = await SecureStorage.GetAsync(Constants.AccessToken);
-            if (string.IsNullOrEmpty(accessToken))
+           
+            // refresh tokens
+            var refreshTokenResult = await _loginService.RefreshTokensAsync();
+            if (!refreshTokenResult.Success)
             {
-                throw new Exception(AuthErrorMessages.TokensOutdated);
+                //logout and clear tokens from secure storage
+                _loginService.Logout();
+                await _navigationService.NavigateTo(nameof(LoginPage));
             }
-            // todo Verify accessToken
-            bool tokenValid = await _loginService.AuthCheck();
-            if (!tokenValid)
-            {
-                throw new Exception(AuthErrorMessages.TokensOutdated);
-            }
+            var accessToken = refreshTokenResult.AccessToken;
+
             Dictionary<string, string> value = new Dictionary<string, string>
             {
                 { "email", email },
                 { "access_rights", accessRights },
                 { "access_token",accessToken }
             };
+
             var content = JsonConvert.SerializeObject(value);
             try
             {
@@ -110,7 +110,6 @@ namespace SafeIn_Mobile.ViewModels
                 PngByteQRCode qRCode = new PngByteQRCode(qrCodeData);
                 byte[] qrCodeBytes = qRCode.GetGraphic(10, colorBytes1, colorBytes2);
                 QrCode = ImageSource.FromStream(() => new MemoryStream(qrCodeBytes));
-                Info = content;
 
 
                 QrCodeExpiration = DateTime.Now.AddSeconds(10);
@@ -118,14 +117,15 @@ namespace SafeIn_Mobile.ViewModels
                 // Start the timer
                 StartTimer();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
+                ErrorMessage = Constants.QrCodeError;
+                OnPropertyChanged();
             }
 
         }
 
-        private void StartTimer()
+        public void StartTimer()
         {
             timer?.Dispose();
 
@@ -139,8 +139,12 @@ namespace SafeIn_Mobile.ViewModels
                 // The QR code has expired, regenerate it
                 try
                 {
-
-                    GenerateQrCodeAsync();
+                    if (!App.IsLoggedIn)
+                    {
+                        // stop the timer
+                        Dispose(); return;
+                    }
+                        GenerateQrCodeAsync();
                 }
                 catch (Exception ex)
                 {

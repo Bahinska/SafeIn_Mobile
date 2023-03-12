@@ -28,17 +28,15 @@ namespace SafeIn_Mobile.Services
                 Email = email,
                 Password = password
             };
-
             var requestJson = new StringContent(JsonConvert.SerializeObject(loginRequest), Encoding.UTF8, "application/json");
             HttpResponseMessage response = null;
             try
             {
                 response = await _client.PostAsync("/Auth/login", requestJson);
-
             }
             catch (Exception e)
             {
-                throw new Exception(AuthErrorMessages.BadRequest + ": " + e.Message);
+                return new LoginResult { Success = false, ErrorMessage = e.Message };
             }
 
             if (!response.IsSuccessStatusCode)
@@ -63,21 +61,31 @@ namespace SafeIn_Mobile.Services
             SecureStorage.RemoveAll();
         }
 
-        public async Task<bool> AuthCheck()
+        public async Task<AccessCheckResult> AccessCheckAsync()
         {
             // get accessToken
-            var refreshToken = await SecureStorage.GetAsync("refresh_token");
-            var accessToken = await SecureStorage.GetAsync("access_token");
+            var accessToken = await SecureStorage.GetAsync(Constants.AccessToken);
             // check accessToken
-            if (string.IsNullOrEmpty(accessToken)|| string.IsNullOrEmpty(refreshToken ))
+            if (string.IsNullOrEmpty(accessToken))
             {
-                // go to loginPage because refresh token doesn't exist
-                return false;
+                return new AccessCheckResult { Success = false, Message = AuthErrorMessages.TokensOutdated };
             }
             // validate accesstoken
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var response = await _client.GetAsync("/Auth/tokenValidate");       
-            return response.IsSuccessStatusCode;
+            try
+            {
+                var response = await _client.GetAsync("/Auth/tokenValidate");
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = JsonConvert.DeserializeObject<ErrorResponse>(await response.Content.ReadAsStringAsync());
+                    return new AccessCheckResult { Success = false, Message = error.Message };
+                }
+                return new AccessCheckResult { Success = response.IsSuccessStatusCode };
+            }
+            catch (Exception)
+            {
+                return new AccessCheckResult { Success = false, Message = AuthErrorMessages.TokensOutdated };
+            }
         }
         public async Task<RefreshTokenResult> RefreshTokensAsync()
         {
@@ -96,25 +104,27 @@ namespace SafeIn_Mobile.Services
             };
 
             var requestJson = new StringContent(JsonConvert.SerializeObject(refreshTokenRequest), Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync("/Auth/refresh", requestJson);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                // Handle the error response
-                var error = JsonConvert.DeserializeObject<ErrorResponse>(await response.Content.ReadAsStringAsync());
-                return new RefreshTokenResult { Success = false, ErrorMessage = error.Message };
+                var response = await _client.PostAsync("/Auth/refresh", requestJson);
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Handle the error response
+                    var error = JsonConvert.DeserializeObject<ErrorResponse>(await response.Content.ReadAsStringAsync());
+                    return new RefreshTokenResult { Success = false, ErrorMessage = error.Message };
+                }
+                var refreshTokenResponse = JsonConvert.DeserializeObject<RefreshTokenResponse>(await response.Content.ReadAsStringAsync());
+                // Store the new access token
+                await SecureStorage.SetAsync(Constants.AccessToken, refreshTokenResponse.AccessToken);
+                await SecureStorage.SetAsync(Constants.RefreshToken, refreshTokenResponse.RefreshToken);
+                return new RefreshTokenResult { Success = true, AccessToken = refreshTokenResponse.AccessToken, RefreshToken = refreshTokenResponse.RefreshToken };
+
+            }
+            catch (Exception ex)
+            {
+                return new RefreshTokenResult { Success = false, ErrorMessage = AuthErrorMessages.TokensOutdated };
             }
 
-            var refreshTokenResponse = JsonConvert.DeserializeObject<RefreshTokenResponse>(await response.Content.ReadAsStringAsync());
-
-            // Store the new access token
-            await SecureStorage.SetAsync(Constants.AccessToken, refreshTokenResponse.AccessToken);
-            await SecureStorage.SetAsync(Constants.RefreshToken, refreshTokenResponse.RefreshToken);
-
-            return new RefreshTokenResult { Success = true, AccessToken = refreshTokenResponse.AccessToken, RefreshToken = refreshTokenResponse.RefreshToken };
         }
-
-
     }
 }

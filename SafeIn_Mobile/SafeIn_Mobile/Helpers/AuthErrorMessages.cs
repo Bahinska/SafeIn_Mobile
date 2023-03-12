@@ -9,6 +9,7 @@ namespace SafeIn_Mobile.Helpers
         public const string TokensOutdated = "TokensOutdated";
         public const string BadRequest = "Bad request";
         public const string Unauthorized = "Unauthorized";
+        public const string UncorrectCredentials= "The email or password is incorrect";
 
     }
 }

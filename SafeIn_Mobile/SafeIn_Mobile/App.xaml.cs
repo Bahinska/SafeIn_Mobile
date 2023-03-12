@@ -14,9 +14,11 @@ namespace SafeIn_Mobile
     {
         private readonly string BaseUrl = DeviceInfo.Platform == DevicePlatform.Android ?
            "https://192.168.181.1:7090" : "http://localhost:5000";
+        public static bool IsLoggedIn { get; set; }
 
         public App()
         {
+          
             InitializeDi();
             InitializeComponent();
 

@@ -29,45 +29,45 @@ namespace SafeIn_Mobile.Services
             _loginService = loginService ?? Locator.Current.GetService<ILoginService>();
 
         }
-        public async Task<IEnumerable<User>> GetUser()
-        {
-            // get accessToken
-            var accessToken = await SecureStorage.GetAsync(Constants.AccessToken);
-            // check accessToken
-            bool validateAccessToken =  await _loginService.AuthCheck();
-            if (!validateAccessToken)
-            {
-                // go to loginPage because refresh token expired
-                throw new Exception(AuthErrorMessages.TokensOutdated);
-            }
-            // put accessToken into header
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        //public async Task<IEnumerable<User>> GetUser()
+        //{
+        //    // get accessToken
+        //    var accessToken = await SecureStorage.GetAsync(Constants.AccessToken);
+        //    // check accessToken
+        //    bool validateAccessToken =  await _loginService.AccessCheckAsync();
+        //    if (!validateAccessToken)
+        //    {
+        //        // go to loginPage because refresh token expired
+        //        throw new Exception(AuthErrorMessages.TokensOutdated);
+        //    }
+        //    // put accessToken into header
+        //    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response = await _client.GetAsync("/api/User");
+        //    var response = await _client.GetAsync("/api/User");
 
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception(AuthErrorMessages.Unauthorized +": "+ response.ReasonPhrase);
-            }
+        //    if (!response.IsSuccessStatusCode)
+        //    {
+        //        throw new Exception(AuthErrorMessages.Unauthorized +": "+ response.ReasonPhrase);
+        //    }
 
-            var data = await response.Content.ReadAsStringAsync();
-            var users = JsonConvert.DeserializeObject<IEnumerable<User>>(data);
-            return users;
+        //    var data = await response.Content.ReadAsStringAsync();
+        //    var users = JsonConvert.DeserializeObject<IEnumerable<User>>(data);
+        //    return users;
 
-        }
+        //}
 
-        public async Task<User> GetUser(int userId)
-        {
-            if (_client == null) { Console.WriteLine("helb"); }
+        //public async Task<User> GetUser(int userId)
+        //{
+        //    if (_client == null) { Console.WriteLine("helb"); }
 
-            string url = $"/api/User/id/{userId}";
+        //    string url = $"/api/User/id/{userId}";
 
-            var json = await _client.GetStringAsync(url);
+        //    var json = await _client.GetStringAsync(url);
 
-            Console.WriteLine(json);
-            var user = JsonConvert.DeserializeObject<User>(json);
-            return user;
-        }
+        //    Console.WriteLine(json);
+        //    var user = JsonConvert.DeserializeObject<User>(json);
+        //    return user;
+        //}
 
 
 

@@ -23,8 +23,9 @@ namespace SafeIn_Mobile.ViewModels
 
         async Task logout()
         {
-           _loginService.Logout();
-            await _navigationService.NavigateTo($"///{nameof(LoadingPage)}");
+            App.IsLoggedIn = false;
+            _loginService.Logout();
+            await _navigationService.NavigateTo($"///{nameof(LoginPage)}");
         }
     }
 }

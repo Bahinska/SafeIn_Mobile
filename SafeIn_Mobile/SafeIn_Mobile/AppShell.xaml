@@ -48,11 +48,11 @@
                       ContentTemplate="{DataTemplate local:UserPage}"
                       Title="UserPage" />
         </Tab>
-        <Tab Title="LoadingPage" Route="LoadingPage" Icon="home.png">
+        <!--<Tab Title="LoadingPage" Route="LoadingPage" Icon="home.png">
             <ShellContent 
                       ContentTemplate="{DataTemplate local:LoadingPage}"
                       Title="LoadingPage" />
-        </Tab>
+        </Tab>-->
         <Tab Title="Settings" Route="SettingsPage" Icon="home.png">
             <ShellContent 
                       ContentTemplate="{DataTemplate local:SettingsPage}"
