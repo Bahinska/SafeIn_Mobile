@@ -3,7 +3,8 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:SafeIn_Mobile.Views"
        Title="SafeIn_Mobile"
-       x:Class="SafeIn_Mobile.AppShell">
+       x:Class="SafeIn_Mobile.AppShell"
+       >
 
     <!--
         The overall app visual hierarchy is defined here, along with navigation.
@@ -29,7 +30,35 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-  
+    
+    <!--Login flow-->
+    <ShellItem Route="LoadingPage">
+        <ShellContent ContentTemplate="{DataTemplate local:LoadingPage}" />
+    </ShellItem>
+    <ShellItem Route="LoginPage" >
+        <ShellContent ContentTemplate="{DataTemplate local:LoginPage}"/>
+    </ShellItem>
+    
+    
+    
+    <!-- Main Page -->
 
+    <TabBar Title="SafeIn" Route="main">
+        <Tab Title="UserPage" Route="UserPage" Icon="home.png">
+            <ShellContent 
+                      ContentTemplate="{DataTemplate local:UserPage}"
+                      Title="UserPage" />
+        </Tab>
+        <!--<Tab Title="LoadingPage" Route="LoadingPage" Icon="home.png">
+            <ShellContent 
+                      ContentTemplate="{DataTemplate local:LoadingPage}"
+                      Title="LoadingPage" />
+        </Tab>-->
+        <Tab Title="Settings" Route="SettingsPage" Icon="home.png">
+            <ShellContent 
+                      ContentTemplate="{DataTemplate local:SettingsPage}"
+                      Title="LoadingPage" />
+        </Tab>
+    </TabBar>
 
 </Shell>
