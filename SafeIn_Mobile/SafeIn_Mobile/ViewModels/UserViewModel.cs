@@ -64,11 +64,8 @@ namespace SafeIn_Mobile.ViewModels
             _userService = userService ?? Locator.Current.GetService<IUserService>();
             _loginService = loginService ?? Locator.Current.GetService<ILoginService>();
             _navigationService = navigationService ?? Locator.Current.GetService<IRoutingService>();
-
             this.name = name;
             this.email = email;
-
-            GenerateQrCodeAsync();
         }
      
         public async void GenerateQrCodeAsync()
@@ -82,7 +79,7 @@ namespace SafeIn_Mobile.ViewModels
             {
                 //logout and clear tokens from secure storage
                 _loginService.Logout();
-                await _navigationService.NavigateTo(nameof(LoginPage));
+                await _navigationService.NavigateTo($"///{nameof(LoginPage)}");
             }
             var accessToken = refreshTokenResult.AccessToken;
 
@@ -104,16 +101,12 @@ namespace SafeIn_Mobile.ViewModels
                 int argb2 = color2.ToArgb();
                 byte[] colorBytes2 = BitConverter.GetBytes(argb2);
 
-
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(content, QRCodeGenerator.ECCLevel.L);
                 PngByteQRCode qRCode = new PngByteQRCode(qrCodeData);
                 byte[] qrCodeBytes = qRCode.GetGraphic(10, colorBytes1, colorBytes2);
                 QrCode = ImageSource.FromStream(() => new MemoryStream(qrCodeBytes));
-
-
-                QrCodeExpiration = DateTime.Now.AddSeconds(10);
-
+                QrCodeExpiration = DateTime.Now.AddSeconds(Constants.QrCodeExpirationTime);
                 // Start the timer
                 StartTimer();
             }
@@ -128,8 +121,7 @@ namespace SafeIn_Mobile.ViewModels
         public void StartTimer()
         {
             timer?.Dispose();
-
-            timer = new Timer(CheckQrCodeExpiration, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+            timer = new Timer(CheckQrCodeExpiration, null, TimeSpan.Zero, TimeSpan.FromSeconds(1)); 
         }
 
         private void CheckQrCodeExpiration(object state)
@@ -139,17 +131,9 @@ namespace SafeIn_Mobile.ViewModels
                 // The QR code has expired, regenerate it
                 try
                 {
-                    if (!App.IsLoggedIn)
-                    {
-                        // stop the timer
-                        Dispose(); return;
-                    }
-                        GenerateQrCodeAsync();
+                    GenerateQrCodeAsync();
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+                catch (Exception){}
             }
             else
             {

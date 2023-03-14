@@ -42,8 +42,8 @@ namespace SafeIn_Mobile.Services
             if (!response.IsSuccessStatusCode)
             {
                 // Handle the error response
-                var error = JsonConvert.DeserializeObject<ErrorResponse>(await response.Content.ReadAsStringAsync());
-                return new LoginResult { Success = false, ErrorMessage = error.Message };
+                var error = response.ReasonPhrase;
+                return new LoginResult { Success = false, ErrorMessage = error };
             }
 
             var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(await response.Content.ReadAsStringAsync());
@@ -56,8 +56,14 @@ namespace SafeIn_Mobile.Services
             return new LoginResult { Success = true };
         }
 
-        public void Logout()
+        public async void Logout()
         {
+
+            var revokeResult = await Revoke();
+            if (!revokeResult.Success)
+            {
+                // log
+            }
             SecureStorage.RemoveAll();
         }
 
@@ -77,8 +83,8 @@ namespace SafeIn_Mobile.Services
                 var response = await _client.GetAsync("/Auth/tokenValidate");
                 if (!response.IsSuccessStatusCode)
                 {
-                    var error = JsonConvert.DeserializeObject<ErrorResponse>(await response.Content.ReadAsStringAsync());
-                    return new AccessCheckResult { Success = false, Message = error.Message };
+                    var error = response.ReasonPhrase;
+                    return new AccessCheckResult { Success = false, Message = error };
                 }
                 return new AccessCheckResult { Success = response.IsSuccessStatusCode };
             }
@@ -110,8 +116,8 @@ namespace SafeIn_Mobile.Services
                 if (!response.IsSuccessStatusCode)
                 {
                     // Handle the error response
-                    var error = JsonConvert.DeserializeObject<ErrorResponse>(await response.Content.ReadAsStringAsync());
-                    return new RefreshTokenResult { Success = false, ErrorMessage = error.Message };
+                    var error = response.ReasonPhrase;
+                    return new RefreshTokenResult { Success = false, ErrorMessage = error };
                 }
                 var refreshTokenResponse = JsonConvert.DeserializeObject<RefreshTokenResponse>(await response.Content.ReadAsStringAsync());
                 // Store the new access token
@@ -120,11 +126,42 @@ namespace SafeIn_Mobile.Services
                 return new RefreshTokenResult { Success = true, AccessToken = refreshTokenResponse.AccessToken, RefreshToken = refreshTokenResponse.RefreshToken };
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new RefreshTokenResult { Success = false, ErrorMessage = AuthErrorMessages.TokensOutdated };
             }
+        }
+        public async Task<RevokeResult> Revoke()
+        {
+            var refreshToken = await SecureStorage.GetAsync("refresh_token");
 
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                return new RevokeResult { Success = false, ErrorMessage = AuthErrorMessages.NoTokens };
+            }
+
+            var revokeRequest = new RevokeRequest
+            {
+                RefreshToken = refreshToken,
+            };
+
+            var requestJson = new StringContent(JsonConvert.SerializeObject(revokeRequest), Encoding.UTF8, "application/json");
+            try
+            {
+                var response = await _client.PostAsync("/Auth/revoke", requestJson);
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Handle the error response
+                    var error = response.ReasonPhrase;
+                    return new RevokeResult { Success = false, ErrorMessage = error };
+                }
+                return new RevokeResult { Success = true };
+
+            }
+            catch (Exception)
+            {
+                return new RevokeResult { Success = false, ErrorMessage = AuthErrorMessages.BadRequest };
+            }
         }
     }
 }

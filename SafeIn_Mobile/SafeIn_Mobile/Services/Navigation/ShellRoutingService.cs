@@ -16,7 +16,10 @@ namespace SafeIn_Mobile.Services.Navigation
         {
             return Shell.Current.GoToAsync(route);
         }
-
+        public Task NavigateTo(string route,bool clear_stack)
+        {
+            return Shell.Current.GoToAsync(route, clear_stack);
+        }
         public Task GoBack()
         {
             return Shell.Current.Navigation.PopAsync();

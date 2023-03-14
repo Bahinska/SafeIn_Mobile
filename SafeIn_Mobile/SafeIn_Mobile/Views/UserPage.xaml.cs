@@ -28,11 +28,11 @@ namespace SafeIn_Mobile.Views
             base.OnDisappearing();
             ViewModel.Dispose();
         }
-        //protected override void OnAppearing()
-        //{
-        //    base.OnDisappearing();
-        //    ViewModel.StartTimer();
-        //}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.GenerateQrCodeAsync();
+        }
         private UserViewModel ViewModel { get; set; }
 
     }

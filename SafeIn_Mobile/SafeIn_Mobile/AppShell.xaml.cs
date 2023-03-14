@@ -11,9 +11,6 @@ namespace SafeIn_Mobile
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
-            //Routing.RegisterRoute(nameof(UserPage), typeof(UserPage));
-            BindingContext = this;
         }
         public ICommand ExecuteLogout => new Command(async () => await GoToAsync(nameof(LoginPage)));
 

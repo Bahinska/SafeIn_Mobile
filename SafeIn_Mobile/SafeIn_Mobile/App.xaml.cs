@@ -7,13 +7,15 @@ using Xamarin.Forms.Xaml;
 using SafeIn_Mobile.ViewModels;
 using System.Net.Http;
 using Xamarin.Essentials;
+using SafeIn_Mobile.Views;
 
 namespace SafeIn_Mobile
 {
     public partial class App : Application
     {
-        private readonly string BaseUrl = DeviceInfo.Platform == DevicePlatform.Android ?
-           "https://192.168.181.1:7090" : "http://localhost:5000";
+        //private readonly string BaseUrl = DeviceInfo.Platform == DevicePlatform.Android ?
+        //   "https://192.168.181.1:7090" : "http://localhost:5000";
+        private readonly string BaseUrl = "https://safein-api.azurewebsites.net";
         public static bool IsLoggedIn { get; set; }
 
         public App()

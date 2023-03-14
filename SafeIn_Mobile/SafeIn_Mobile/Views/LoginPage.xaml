@@ -16,11 +16,11 @@
                      HorizontalOptions="FillAndExpand">
             <Label Text="Email:"/>
             <Entry Text="{Binding Email, Mode=TwoWay}" Placeholder="Username"/>
-            <Label Text="{Binding EmailMessage}"/>
+            <Label Text="{Binding EmailMessage, Mode=TwoWay}"/>
             <Label Text="Password:"/>
             <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Password"/>
-            <Label Text="{Binding PasswordMessage}"/>
-            <Label Text="{Binding CredentialsNotValid}"/>
+            <Label Text="{Binding PasswordMessage, Mode=TwoWay}"/>
+            <Label Text="{Binding CredentialsNotValid, Mode=TwoWay}"/>
             <Button Text="Login" Command ="{Binding LoginCommand}"/>
 
             <!--<Button Text="Go to User Page" Command="{Binding NavigateToUserPageCommand}" />-->

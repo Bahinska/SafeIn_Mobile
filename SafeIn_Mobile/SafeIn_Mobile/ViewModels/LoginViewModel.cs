@@ -13,15 +13,23 @@ namespace SafeIn_Mobile.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string EmailMessage { get; set; }
-        public string PasswordMessage { get; set; }
-        public string CredentialsNotValid { get; set; }
+
+        public string Email { get => email; set => SetProperty(ref email, value);
+        }
+        public string Password { get => password; set => SetProperty(ref password, value); }
+        public string EmailMessage { get => emailMessage; set => SetProperty(ref emailMessage, value); }
+        public string PasswordMessage { get => passwordMessage; set => SetProperty(ref passwordMessage, value); }
+        public string CredentialsNotValid { get => credentialsNotValid; set => SetProperty(ref credentialsNotValid, value); }
         public AsyncCommand LoginCommand { get; set; }
         private readonly IRoutingService _navigationService;
         private readonly IUserService _userService;
         private readonly ILoginService _loginService;
+        private string email;
+        private string password;
+        private string emailMessage;
+        private string passwordMessage;
+        private string credentialsNotValid;
+
         public LoginViewModel(IRoutingService navigationService = null, ILoginService loginService = null)
         {
             _navigationService = navigationService ?? Locator.Current.GetService<IRoutingService>();
@@ -29,8 +37,8 @@ namespace SafeIn_Mobile.ViewModels
             Title = "Login Page";
 
             //delete
-            Email = "user@example.com";
-            Password = "Password_5";
+            Email = "tomas@lnu.edu";
+            Password = "Tomas-123";
 
             OnPropertyChanged();
             LoginCommand = new AsyncCommand(Login);
@@ -39,8 +47,10 @@ namespace SafeIn_Mobile.ViewModels
         async Task Login()
         {
             // validate data
+            EmailMessage = "";
+            PasswordMessage= "";
             var email_correct = await UserValidation.EmailValidAsync(Email);
-            var password_correct = await UserValidation.EmailValidAsync(Email);
+            var password_correct = await UserValidation.PasswordValidAsync(Password);
             if (!email_correct)
             {
                 EmailMessage = Constants.EmailNotValidMessage;
@@ -49,19 +59,19 @@ namespace SafeIn_Mobile.ViewModels
             {
                 PasswordMessage = Constants.PasswordEmptyMessage;
             }
+
             // cansle if credential not valid
             if (!email_correct || !password_correct)
             {
-                OnPropertyChanged();
                 return;
             }
+
             // login user and put refresh and access tokens into SecureStorage
             var loginResult = await _loginService.LoginAsync(Email, Password);
             if (!loginResult.Success)
             {
                 // handle if login was unsuccessful.NavigationStack.Countl
                 CredentialsNotValid = AuthErrorMessages.UncorrectCredentials;
-                OnPropertyChanged();
                 return;
             }
             App.IsLoggedIn = true;

@@ -3,7 +3,8 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:SafeIn_Mobile.Views"
        Title="SafeIn_Mobile"
-       x:Class="SafeIn_Mobile.AppShell">
+       x:Class="SafeIn_Mobile.AppShell"
+       >
 
     <!--
         The overall app visual hierarchy is defined here, along with navigation.
@@ -41,8 +42,8 @@
     
     
     <!-- Main Page -->
-    <TabBar Title="SafeIn" Route="main"
-                >
+
+    <TabBar Title="SafeIn" Route="main">
         <Tab Title="UserPage" Route="UserPage" Icon="home.png">
             <ShellContent 
                       ContentTemplate="{DataTemplate local:UserPage}"
@@ -59,9 +60,5 @@
                       Title="LoadingPage" />
         </Tab>
     </TabBar>
-    <Shell.ToolbarItems>
-        <ToolbarItem Text="FunctionButton" Command="{Binding ExecuteLogout}" />
-    </Shell.ToolbarItems>
-
 
 </Shell>
