@@ -1,5 +1,6 @@
 ﻿using SafeIn_Mobile.ViewModels;
 using Splat;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,5 +20,7 @@ namespace SafeIn_Mobile.Views
             base.OnAppearing();
             ViewModel.Init();
         }
+
+        
     }
 }

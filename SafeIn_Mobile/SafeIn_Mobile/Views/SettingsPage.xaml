@@ -1,14 +1,170 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SafeIn_Mobile.Views.SettingsPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Button Text="Logout" Command="{Binding LogoutCommand}"/>
+             x:Class="SafeIn_Mobile.Views.SettingsPage"
+             Shell.NavBarIsVisible="False" 
+             xmlns:controls="clr-namespace:SafeIn_Mobile.CustomStyle"
+             BackgroundImageSource="BlurBackground">
 
-        </StackLayout>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="LightGreenColor">#2FA999</Color>
+            <Color x:Key="BorderColor">#9B9999</Color>
+
+            <Style x:Key="LableStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="#666666" />
+                <Setter Property="FontSize" Value="Large" />
+            </Style>
+            <Style x:Key="FrameStyle" TargetType="Frame">
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="CornerRadius" Value="25" />
+                <Setter Property="Padding" Value="10,0,0,0"></Setter>
+                <Setter Property="Margin" Value="54,0,54,0"></Setter>
+                <Setter Property="BackgroundColor" Value="#CCCCCC"></Setter>
+                <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
+            </Style>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="HeightRequest" Value="46"></Setter>
+                <Setter Property="FontFamily" Value="Montserrat-Regular"></Setter>
+            </Style>
+
+            <Style x:Key="LogOutButton" TargetType="Button">
+                <Setter Property="Margin" Value="52,0,52,0"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="FontSize" Value="24"></Setter>
+                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
+                <Setter Property="CornerRadius" Value="25"></Setter>
+                <Setter Property="BorderColor" Value="White"></Setter>
+                <Setter Property="BorderWidth" Value="1"></Setter>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
+                            <GradientStop Color="#70FF0000" Offset="0.0" />
+                            <GradientStop Color="#58FF0000" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SaveButton" TargetType="Button">
+                <Setter Property="FontSize" Value="12"></Setter>
+                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
+                <Setter Property="CornerRadius" Value="25"></Setter>
+                <Setter Property="Margin" Value="54,20,0,5"></Setter>
+                <Setter Property="BorderColor" Value="White"></Setter>
+                <Setter Property="BorderWidth" Value="1"></Setter>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
+                            <GradientStop Color="#00FF47" Offset="0.0" />
+                            <GradientStop Color="#69D9D9D9" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="DiscardButton" TargetType="Button">
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="FontSize" Value="10"></Setter>
+                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
+                <Setter Property="CornerRadius" Value="25"></Setter>
+                <Setter Property="Margin" Value="0,20,54,5"></Setter>
+                <Setter Property="BorderColor" Value="White"></Setter>
+                <Setter Property="BorderWidth" Value="1"></Setter>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
+                            <GradientStop Color="#70FFFFFF" Offset="0.0" />
+                            <GradientStop Color="#00FFFFFF" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="Label" TargetType="Label">
+                <Setter Property="Margin" Value="54,0,54,0"></Setter>
+                <Setter Property="FontSize" Value="18"></Setter>
+                <Setter Property="FontFamily" Value="Montserrat-Regular"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+            </Style>
+
+            <Style x:Key="Title" TargetType="Label">
+                <Setter Property="FontSize" Value="42"></Setter>
+                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="VerticalTextAlignment" Value="Center"></Setter>
+            </Style>
+
+            <Style x:Key="UserImage" TargetType="Frame">
+                <Setter Property="CornerRadius" Value="100"></Setter>
+                <Setter Property="WidthRequest" Value="120"></Setter>
+                <Setter Property="HeightRequest" Value="120"></Setter>
+                <Setter Property="Padding" Value="0"></Setter>
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"></Setter>
+            </Style>
+
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="120" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="70" />
+                <RowDefinition Height="60" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Label Style="{StaticResource Title}" Grid.ColumnSpan="2">Edit Account</Label>
+
+            <Frame Style="{StaticResource UserImage}" Grid.Row="1" Grid.ColumnSpan="2">
+                <Image Source="userimage"></Image>
+            </Frame>
+
+            <Label Style="{StaticResource Label}" Grid.Row="2" Grid.ColumnSpan="2">Full name</Label>
+            <Frame Style="{StaticResource FrameStyle}" Grid.Row="3" Grid.ColumnSpan="2">
+                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="Jane Doe"></controls:CustomEntry>
+            </Frame>
+
+            <Label Style="{StaticResource Label}" Grid.Row="4" Grid.ColumnSpan="2">Email</Label>
+            <Frame Style="{StaticResource FrameStyle}" Grid.Row="5" Grid.ColumnSpan="2">
+                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="janedoe@gmail.com"></controls:CustomEntry>
+            </Frame>
+
+            <Label Style="{StaticResource Label}" Grid.Row="6" Grid.ColumnSpan="2">Position</Label>
+            <Frame Style="{StaticResource FrameStyle}" BackgroundColor="White" Grid.Row="7" Grid.ColumnSpan="2">
+                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="CEO SafeOut"></controls:CustomEntry>
+            </Frame>
+
+            <Label Style="{StaticResource Label}" Grid.Row="8" Grid.ColumnSpan="2">Password</Label>
+            <Frame Style="{StaticResource FrameStyle}" BackgroundColor="White" Grid.Row="9" Grid.ColumnSpan="2">
+                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="******"></controls:CustomEntry>
+            </Frame>
+
+            <Button Style="{StaticResource SaveButton}" Grid.Row="10" Text="Save Changes"/>
+            <Button Style="{StaticResource DiscardButton}" Grid.Row="10" Grid.Column="1" Text="Discard Changes"/>
+
+            <Button Style="{StaticResource LogOutButton}" Grid.Row="11" Grid.ColumnSpan="2" Text="Log Out" Command="{Binding LogoutCommand}"/>
+
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

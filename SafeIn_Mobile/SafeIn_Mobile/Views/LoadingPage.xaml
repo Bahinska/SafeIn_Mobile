@@ -3,13 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SafeIn_Mobile.Views.LoadingPage"            
              Shell.NavBarIsVisible="False"
+             BackgroundImageSource="background"
              >
+
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-            <ActivityIndicator Color="Accent"
+            <Label FontSize="42" FontFamily="Montserrat-Bold" TextColor="White" Margin="0,0,0,100" Text="SafeIn" />
+            <ActivityIndicator Color="White"
                                IsRunning="True"
                                IsVisible="True" />
-            <Label Text="Loading ..." />
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
