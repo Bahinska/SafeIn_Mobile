@@ -29,5 +29,6 @@ namespace SafeIn_Mobile.Services.Navigation
         {
             return Shell.Current.Navigation.PopModalAsync();
         }
+        
     }
 }

@@ -15,10 +15,10 @@ namespace SafeIn_Mobile
     {
         //private readonly string BaseUrl = DeviceInfo.Platform == DevicePlatform.Android ?
         //   "https://192.168.181.1:7090" : "http://localhost:5000";
-        private readonly string BaseUrl = "https://safein-api.azurewebsites.net";
+        private readonly string BaseUrl = "https://safeinapisecondaccount.azurewebsites.net/";
         public static bool IsLoggedIn { get; set; }
-
-        public App()
+        
+    public App()
         {
           
             InitializeDi();
@@ -70,5 +70,6 @@ namespace SafeIn_Mobile
             };
             return handler;
         }
+       
     }
 }
