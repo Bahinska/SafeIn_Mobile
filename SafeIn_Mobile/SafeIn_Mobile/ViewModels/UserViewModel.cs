@@ -29,11 +29,11 @@ namespace SafeIn_Mobile.ViewModels
             set => SetProperty(ref qrCode, value);
         }
 
-        private string name;
-        public string Name
+        private string userName;
+        public string UserName
         {
-            get => name;
-            set => SetProperty(ref name, value);
+            get => userName;
+            set => SetProperty(ref userName, value);
         }
 
         private string email;
@@ -42,7 +42,18 @@ namespace SafeIn_Mobile.ViewModels
             get => email;
             set => SetProperty(ref email, value);
         }
-
+        private string currentPassword;
+        public string CurrentPassword
+        {
+            get => currentPassword;
+            set => SetProperty(ref currentPassword, value);
+        }
+        private string newPassword;
+        public string NewPassword
+        {
+            get => newPassword;
+            set => SetProperty(ref newPassword, value);
+        }
         private DateTime qrCodeExpiration;
         public DateTime QrCodeExpiration
         {
@@ -59,20 +70,18 @@ namespace SafeIn_Mobile.ViewModels
 
         private Timer timer;
 
-        public UserViewModel(string name, string email, IRoutingService navigationService = null, IUserService userService = null, ILoginService loginService = null)
+        public UserViewModel(IRoutingService navigationService = null, IUserService userService = null, ILoginService loginService = null)
         {
             _userService = userService ?? Locator.Current.GetService<IUserService>();
             _loginService = loginService ?? Locator.Current.GetService<ILoginService>();
             _navigationService = navigationService ?? Locator.Current.GetService<IRoutingService>();
-            this.name = name;
-            this.email = email;
         }
-     
+
         public async void GenerateQrCodeAsync()
         {
-            var email = this.email;
+            var email = await SecureStorage.GetAsync(Constants.Email);
             var accessRights = "User";
-           
+
             // refresh tokens
             var refreshTokenResult = await _loginService.RefreshTokensAsync();
             if (!refreshTokenResult.Success)
@@ -121,7 +130,7 @@ namespace SafeIn_Mobile.ViewModels
         public void StartTimer()
         {
             timer?.Dispose();
-            timer = new Timer(CheckQrCodeExpiration, null, TimeSpan.Zero, TimeSpan.FromSeconds(1)); 
+            timer = new Timer(CheckQrCodeExpiration, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
         }
 
         private void CheckQrCodeExpiration(object state)
@@ -133,7 +142,7 @@ namespace SafeIn_Mobile.ViewModels
                 {
                     GenerateQrCodeAsync();
                 }
-                catch (Exception){}
+                catch (Exception) { }
             }
             else
             {

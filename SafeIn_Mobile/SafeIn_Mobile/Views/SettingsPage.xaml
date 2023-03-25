@@ -140,24 +140,24 @@
                 <Image Source="userimage"></Image>
             </Frame>
 
-            <Label Style="{StaticResource Label}" Grid.Row="2" Grid.ColumnSpan="2">Full name</Label>
+            <Label Style="{StaticResource Label}"  Grid.Row="2" Grid.ColumnSpan="2">User name</Label>
             <Frame Style="{StaticResource FrameStyle}" Grid.Row="3" Grid.ColumnSpan="2">
-                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="Jane Doe"></controls:CustomEntry>
+                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding UserName}"></controls:CustomEntry>
             </Frame>
 
             <Label Style="{StaticResource Label}" Grid.Row="4" Grid.ColumnSpan="2">Email</Label>
             <Frame Style="{StaticResource FrameStyle}" Grid.Row="5" Grid.ColumnSpan="2">
-                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="janedoe@gmail.com"></controls:CustomEntry>
+                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding Email}"></controls:CustomEntry>
             </Frame>
 
-            <Label Style="{StaticResource Label}" Grid.Row="6" Grid.ColumnSpan="2">Position</Label>
+            <Label Style="{StaticResource Label}" Grid.Row="6" Grid.ColumnSpan="2">Current password</Label>
             <Frame Style="{StaticResource FrameStyle}" BackgroundColor="White" Grid.Row="7" Grid.ColumnSpan="2">
-                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="CEO SafeOut"></controls:CustomEntry>
+                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding CurrentPassword}" Placeholder="******" ></controls:CustomEntry>
             </Frame>
 
-            <Label Style="{StaticResource Label}" Grid.Row="8" Grid.ColumnSpan="2">Password</Label>
+            <Label Style="{StaticResource Label}" Grid.Row="8" Grid.ColumnSpan="2">New password</Label>
             <Frame Style="{StaticResource FrameStyle}" BackgroundColor="White" Grid.Row="9" Grid.ColumnSpan="2">
-                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="******"></controls:CustomEntry>
+                <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding NewPassword}" Placeholder="******"></controls:CustomEntry>
             </Frame>
 
             <Button Style="{StaticResource SaveButton}" Grid.Row="10" Text="Save Changes"/>

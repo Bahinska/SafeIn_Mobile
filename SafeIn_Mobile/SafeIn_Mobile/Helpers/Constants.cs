@@ -14,5 +14,14 @@ namespace SafeIn_Mobile.Helpers
         public const string PasswordEmptyMessage= "Empty password";
         public const string QrCodeError= "Error occured during QrCode generation";
         public const int QrCodeExpirationTime = 10000;
+
+
+        // connection
+        public const String AzureConnectionUrl = "https://safeinapisecondaccount.azurewebsites.net/";
+        public const String LocalAndroidConnectionUrl = "https://192.168.181.1:7090";
+        public const String LocalIosConnectionUrl = "http://localhost:5000";
+        // user requests
+        public const String UserUpdateUrl = "/Auth/edit";
+        public const String UserInfoUrl = "/api/Employee/information";
     }
 }
