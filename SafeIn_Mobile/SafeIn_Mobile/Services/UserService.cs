@@ -56,7 +56,7 @@ namespace SafeIn_Mobile.Services
                 }
                 var userInfoResponse = JsonConvert.DeserializeObject<UserInfoResponse>(await response.Content.ReadAsStringAsync());
 
-                return new UserInfoResult { Success = true, Name = userInfoResponse.Name,
+                return new UserInfoResult { Success = true, UserName = userInfoResponse.UserName,
                             Email = userInfoResponse.Email, Company = userInfoResponse.Company,
                             Role = userInfoResponse.Role};
             }

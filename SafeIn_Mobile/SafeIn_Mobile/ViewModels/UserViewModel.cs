@@ -6,6 +6,7 @@ using MvvmHelpers;
 using Newtonsoft.Json;
 using QRCoder;
 using SafeIn_Mobile.Helpers;
+using SafeIn_Mobile.Models;
 using SafeIn_Mobile.Services;
 using SafeIn_Mobile.Services.Navigation;
 using SafeIn_Mobile.Views;
@@ -151,7 +152,7 @@ namespace SafeIn_Mobile.ViewModels
                 TimeRemaining = timeRemaining < 0 ? 0 : timeRemaining;
             }
         }
-
+        
         public void Dispose()
         {
             if (timer != null)
