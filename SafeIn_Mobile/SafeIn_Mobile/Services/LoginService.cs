@@ -163,5 +163,10 @@ namespace SafeIn_Mobile.Services
                 return new RevokeResult { Success = false, ErrorMessage = AuthErrorMessages.BadRequest };
             }
         }
+
+        Task<RevokeTokensResult> ILoginService.RevokeTokens()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

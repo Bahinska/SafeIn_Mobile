@@ -8,19 +8,22 @@ using SafeIn_Mobile.ViewModels;
 using System.Net.Http;
 using Xamarin.Essentials;
 using SafeIn_Mobile.Views;
+using SafeIn_Mobile.Helpers;
 
 namespace SafeIn_Mobile
 {
     public partial class App : Application
     {
+       
+        private readonly string BaseUrl = Constants.AzureConnectionUrl;
+        // only local env only
         //private readonly string BaseUrl = DeviceInfo.Platform == DevicePlatform.Android ?
-        //   "https://192.168.181.1:7090" : "http://localhost:5000";
-        private readonly string BaseUrl = "https://safeinapisecondaccount.azurewebsites.net/";
+        //Constants.LocalAndroidConnectionUrl : Constants.LocalIosConnectionUrl;
         public static bool IsLoggedIn { get; set; }
-        
-    public App()
+
+        public App()
         {
-          
+
             InitializeDi();
             InitializeComponent();
 
@@ -40,11 +43,16 @@ namespace SafeIn_Mobile
             Locator.CurrentMutable.Register(() => new SettingsViewModel());
             Locator.CurrentMutable.Register(() => new LoginViewModel());
 
-            // Connection
-            Locator.CurrentMutable.RegisterLazySingleton(() => new HttpClient(GetInsecureHandler())
+            // Connection  
+            Locator.CurrentMutable.RegisterLazySingleton(() => new HttpClient()
             {
                 BaseAddress = new Uri(BaseUrl)
             });
+            // only local env
+            //Locator.CurrentMutable.RegisterLazySingleton(() => new HttpClient(GetInsecureHandler())
+            //{
+            //    BaseAddress = new Uri(BaseUrl)
+            //});
         }
         protected override void OnStart()
         {
@@ -70,6 +78,6 @@ namespace SafeIn_Mobile
             };
             return handler;
         }
-       
+
     }
 }
