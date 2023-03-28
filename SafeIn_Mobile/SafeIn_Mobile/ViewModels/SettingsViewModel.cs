@@ -18,9 +18,10 @@ namespace SafeIn_Mobile.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private IRoutingService _navigationService;
-        private ILoginService _loginService;
-        private IUserService _userService;
+        private readonly IRoutingService _navigationService;
+        private readonly ILoginService _loginService;
+        private readonly IUserService _userService;
+        private readonly IToastService toastService;
 
         public ICommand LogoutCommand { get; set; }
         public ICommand SaveChangesCommand { get; set; }
@@ -83,23 +84,10 @@ namespace SafeIn_Mobile.ViewModels
             SaveChangesCommand = new AsyncCommand(SaveChanges);
             DiscardChangesCommand = new AsyncCommand(GetOriginalProperties);
             GetOriginalProperties();
+            toastService = Locator.Current.GetService<IToastService>();
         }
         async Task SaveChanges()
         {
-            // validate inputs
-            //EmailMessage = "";
-            //PasswordMessage = "";
-            //var email_correct = await UserValidation.EmailValidAsync(Email);
-            //var password_correct = await UserValidation.PasswordValidAsync(CurrentPassword);
-            //if (!email_correct)
-            //{
-            //    EmailMessage = Constants.EmailNotValidMessage;
-            //}
-            //if (!password_correct)
-            //{
-            //    PasswordMessage = Constants.PasswordEmptyMessage;
-            //}
-
             // create userUpdateRequest
             var updateUser = new UserUpdate { UserName = UserName, Email = Email, Password = NewPassword, CurrentPassword = CurrentPassword };
             // update user
@@ -109,6 +97,7 @@ namespace SafeIn_Mobile.ViewModels
             {
                 // write error message and return
                 ErrorMessage = userUpdateResult.ErrorMessage;
+                toastService.ShowToast(Constants.UserErrorUpdatedMessage);
                 return;
             }
             // login with new credentials
@@ -136,9 +125,11 @@ namespace SafeIn_Mobile.ViewModels
                 return;
             }
             // set new data to properties
-            await GetOriginalProperties();
+            GetOriginalProperties();
+            toastService.ShowToast(Constants.UserUpdatedMessage);
+
         }
-        async Task GetOriginalProperties()
+        public async Task GetOriginalProperties()
         {
             // set inputs to original data from securestorage
             var user = await _userService.GetUserFromSecureStorageAsync();

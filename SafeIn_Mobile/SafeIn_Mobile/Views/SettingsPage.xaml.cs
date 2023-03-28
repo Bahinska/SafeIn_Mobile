@@ -20,6 +20,5 @@ namespace SafeIn_Mobile.Views
 
         }
         internal SettingsViewModel ViewModel { get; set; } = Locator.Current.GetService<SettingsViewModel>();
-
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using SafeIn_Mobile.iOS.Services;
+using SafeIn_Mobile.Services;
+using Splat;
 using UIKit;
 
 namespace SafeIn_Mobile.iOS
@@ -24,6 +27,7 @@ namespace SafeIn_Mobile.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
+            Locator.CurrentMutable.Register(() => new ToastServiceIOS(), typeof(IToastService));
 
             return base.FinishedLaunching(app, options);
         }

@@ -68,8 +68,8 @@
             </Frame>
             
             
-            <Label Style="{StaticResource Username}" Grid.Row="1" Text="Username" />
-            <Label Style="{StaticResource Position}" Grid.Row="2" Text="CEO" />
+            <Label Style="{StaticResource Username}" Text="{Binding UserName}" Grid.Row="1"  />
+            <Label Style="{StaticResource Position}" Text="{Binding Role}" Grid.Row="2"  />
 
             <BoxView BackgroundColor="White" CornerRadius="25,25,0,0" Grid.Row="3" Grid.RowSpan="5">
             </BoxView>

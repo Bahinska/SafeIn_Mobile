@@ -18,11 +18,13 @@ namespace SafeIn_Mobile.Helpers
 
 
         // connection
-        public const String AzureConnectionUrl = "https://safeinapisecondaccount.azurewebsites.net/";
-        public const String LocalAndroidConnectionUrl = "https://192.168.181.1:7090";
-        public const String LocalIosConnectionUrl = "http://localhost:5000";
+        public const string AzureConnectionUrl = "https://safeinapisecondaccount.azurewebsites.net/";
+        public const string LocalAndroidConnectionUrl = "https://192.168.181.1:7090";
+        public const string LocalIosConnectionUrl = "http://localhost:5000";
         // user requests
-        public const String UserUpdateUrl = "/Auth/edit";
-        public const String UserInfoUrl = "/api/Employee/information";
+        public const string UserUpdateUrl = "/Auth/edit";
+        public const string UserInfoUrl = "/api/Employee/information";
+        public const string UserUpdatedMessage = "User updated!";
+        public const string UserErrorUpdatedMessage = "User not updated!";
     }
 }
