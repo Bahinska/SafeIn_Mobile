@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
+using SafeIn_Mobile.Helpers;
 using SafeIn_Mobile.Models;
 using SafeIn_Mobile.Services;
 using SafeIn_Mobile.Services.Navigation;
 using SafeIn_Mobile.Views;
 using Splat;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace SafeIn_Mobile.ViewModels
@@ -18,9 +21,15 @@ namespace SafeIn_Mobile.ViewModels
         private IRoutingService _navigationService;
         private ILoginService _loginService;
         private IUserService _userService;
+
         public ICommand LogoutCommand { get; set; }
         public ICommand SaveChangesCommand { get; set; }
         public ICommand DiscardChangesCommand { get; set; }
+
+        private string emailMessage;
+        public string EmailMessage { get => emailMessage; set => SetProperty(ref emailMessage, value); }
+        private string passwordMessage;
+        public string PasswordMessage { get => passwordMessage; set => SetProperty(ref passwordMessage, value); }
         private string userName;
         public string UserName
         {
@@ -59,6 +68,7 @@ namespace SafeIn_Mobile.ViewModels
             set => SetProperty(ref company, value);
         }
         private string errorMessage;
+
         public string ErrorMessage
         {
             get => errorMessage;
@@ -77,6 +87,18 @@ namespace SafeIn_Mobile.ViewModels
         async Task SaveChanges()
         {
             // validate inputs
+            //EmailMessage = "";
+            //PasswordMessage = "";
+            //var email_correct = await UserValidation.EmailValidAsync(Email);
+            //var password_correct = await UserValidation.PasswordValidAsync(CurrentPassword);
+            //if (!email_correct)
+            //{
+            //    EmailMessage = Constants.EmailNotValidMessage;
+            //}
+            //if (!password_correct)
+            //{
+            //    PasswordMessage = Constants.PasswordEmptyMessage;
+            //}
 
             // create userUpdateRequest
             var updateUser = new UserUpdate { UserName = UserName, Email = Email, Password = NewPassword, CurrentPassword = CurrentPassword };
