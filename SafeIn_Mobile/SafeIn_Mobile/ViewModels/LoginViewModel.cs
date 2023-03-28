@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using SafeIn_Mobile.Helpers;
+using SafeIn_Mobile.Models;
 using SafeIn_Mobile.Services;
 using SafeIn_Mobile.Services.Navigation;
 using SafeIn_Mobile.Views;
@@ -30,15 +31,16 @@ namespace SafeIn_Mobile.ViewModels
         private string passwordMessage;
         private string credentialsNotValid;
 
-        public LoginViewModel(IRoutingService navigationService = null, ILoginService loginService = null)
+        public LoginViewModel(IRoutingService navigationService = null, ILoginService loginService = null, IUserService userService = null)
         {
             _navigationService = navigationService ?? Locator.Current.GetService<IRoutingService>();
             _loginService = loginService ?? Locator.Current.GetService<ILoginService>();
+            _userService = userService ?? Locator.Current.GetService<IUserService>();
             Title = "Login Page";
 
             //delete
-            Email = "tomas@lnu.edu";
-            Password = "Tomas-123";
+            Email = "anna@gmail.com";
+            Password = "Anna-123";
 
             OnPropertyChanged();
             LoginCommand = new AsyncCommand(Login);
@@ -75,6 +77,22 @@ namespace SafeIn_Mobile.ViewModels
                 return;
             }
             App.IsLoggedIn = true;
+            // save user in securestorage
+            var userInfoResult = await _userService.GetUserInfo();
+            if (!userInfoResult.Success)
+            {
+                // logout and go to login page
+                _loginService.Logout();
+                return;
+            }
+            var newUser = new User { UserName = userInfoResult.UserName, Password = Password, Email = userInfoResult.Email, Company = userInfoResult.Company, Role = userInfoResult.Company };
+            var writingSuccess = _userService.WriteUserIntoSecureStorage(newUser);
+            if (!writingSuccess)
+            {
+                // logout and go to login page
+                _loginService.Logout();
+                return;
+            }
             await _navigationService.NavigateTo($"///main/{nameof(UserPage)}");
         }
     }

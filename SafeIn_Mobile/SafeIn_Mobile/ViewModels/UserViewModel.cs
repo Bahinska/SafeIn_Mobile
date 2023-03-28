@@ -23,6 +23,7 @@ namespace SafeIn_Mobile.ViewModels
         private readonly ILoginService _loginService;
         private readonly IRoutingService _navigationService;
         public string ErrorMessage { get; set; }
+
         private ImageSource qrCode;
         public ImageSource QrCode
         {
@@ -30,31 +31,6 @@ namespace SafeIn_Mobile.ViewModels
             set => SetProperty(ref qrCode, value);
         }
 
-        private string userName;
-        public string UserName
-        {
-            get => userName;
-            set => SetProperty(ref userName, value);
-        }
-
-        private string email;
-        public string Email
-        {
-            get => email;
-            set => SetProperty(ref email, value);
-        }
-        private string currentPassword;
-        public string CurrentPassword
-        {
-            get => currentPassword;
-            set => SetProperty(ref currentPassword, value);
-        }
-        private string newPassword;
-        public string NewPassword
-        {
-            get => newPassword;
-            set => SetProperty(ref newPassword, value);
-        }
         private DateTime qrCodeExpiration;
         public DateTime QrCodeExpiration
         {
@@ -77,7 +53,6 @@ namespace SafeIn_Mobile.ViewModels
             _loginService = loginService ?? Locator.Current.GetService<ILoginService>();
             _navigationService = navigationService ?? Locator.Current.GetService<IRoutingService>();
         }
-
         public async void GenerateQrCodeAsync()
         {
             var email = await SecureStorage.GetAsync(Constants.Email);
@@ -152,7 +127,7 @@ namespace SafeIn_Mobile.ViewModels
                 TimeRemaining = timeRemaining < 0 ? 0 : timeRemaining;
             }
         }
-        
+
         public void Dispose()
         {
             if (timer != null)

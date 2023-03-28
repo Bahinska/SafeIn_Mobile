@@ -10,9 +10,10 @@ namespace SafeIn_Mobile.Services
     {
 
 
-        Task<UserUpdateResult> UserUpdate(User user);
+        Task<UserUpdateResult> UserUpdate(UserUpdate user);
         Task<UserInfoResult> GetUserInfo();
-        Task<bool> WriteUserInfoIntoStorage();
+        bool WriteUserIntoSecureStorage(User user);
+        Task<User> GetUserFromSecureStorageAsync();
      
     }
 }

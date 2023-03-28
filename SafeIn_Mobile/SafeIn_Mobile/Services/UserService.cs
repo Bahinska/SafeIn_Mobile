@@ -56,9 +56,14 @@ namespace SafeIn_Mobile.Services
                 }
                 var userInfoResponse = JsonConvert.DeserializeObject<UserInfoResponse>(await response.Content.ReadAsStringAsync());
 
-                return new UserInfoResult { Success = true, UserName = userInfoResponse.UserName,
-                            Email = userInfoResponse.Email, Company = userInfoResponse.Company,
-                            Role = userInfoResponse.Role};
+                return new UserInfoResult
+                {
+                    Success = true,
+                    UserName = userInfoResponse.UserName,
+                    Email = userInfoResponse.Email,
+                    Company = userInfoResponse.Company,
+                    Role = userInfoResponse.Role
+                };
             }
             catch (Exception ex)
             {
@@ -66,7 +71,7 @@ namespace SafeIn_Mobile.Services
             }
         }
 
-        public async Task<UserUpdateResult> UserUpdate(User user)
+        public async Task<UserUpdateResult> UserUpdate(UserUpdate user)
         {
             // get accessToken
             var accessToken = await SecureStorage.GetAsync(Constants.AccessToken);
@@ -80,16 +85,14 @@ namespace SafeIn_Mobile.Services
             // put accessToken into header
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             // create update instance
-            var currentPasswrod = await SecureStorage.GetAsync(Constants.Password);
-            var userUpdateRequest = new UserUpdateRequest { Email = user.Email, UserName = user.UserName, CurrentPassword = currentPasswrod, Password = user.Password };
+            var userUpdateRequest = new UserUpdateRequest { Email = user.Email, UserName = user.UserName, CurrentPassword = user.CurrentPassword, Password = user.Password };
             var requestJson = new StringContent(JsonConvert.SerializeObject(userUpdateRequest), Encoding.UTF8, "application/json");
             try
             {
-                var response = await _client.PostAsync(Constants.UserUpdateUrl, requestJson);
-
+                var response = await _client.PutAsync(Constants.UserUpdateUrl, requestJson);
                 if (!response.IsSuccessStatusCode)
                 {
-                    // Handle the error response
+                    // handle the error response
                     var error = response.ReasonPhrase;
                     return new UserUpdateResult { Success = false, ErrorMessage = error };
                 }
@@ -102,9 +105,28 @@ namespace SafeIn_Mobile.Services
             }
         }
 
-        public Task<bool> WriteUserInfoIntoStorage()
+        public bool WriteUserIntoSecureStorage(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string userJson = JsonConvert.SerializeObject(user);
+
+                SecureStorage.SetAsync(Constants.User, userJson);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
+
+        public async Task<User> GetUserFromSecureStorageAsync()
+        {
+            string userJson = await SecureStorage.GetAsync(Constants.User);
+            User user = JsonConvert.DeserializeObject<User>(userJson);
+            return user;
+        }
+
+
     }
 }
