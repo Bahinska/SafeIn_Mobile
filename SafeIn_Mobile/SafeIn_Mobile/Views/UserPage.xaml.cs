@@ -29,6 +29,7 @@ namespace SafeIn_Mobile.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            ViewModel.SetUserDataToView();
             ViewModel.GenerateQrCodeAsync();
         }
         private UserViewModel ViewModel { get; set; }

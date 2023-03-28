@@ -22,6 +22,30 @@ namespace SafeIn_Mobile.ViewModels
         private readonly IUserService _userService;
         private readonly ILoginService _loginService;
         private readonly IRoutingService _navigationService;
+        private string userName;
+        public string UserName
+        {
+            get => userName;
+            set => SetProperty(ref userName, value);
+        }
+        private string role;
+        public string Role
+        {
+            get => role;
+            set => SetProperty(ref role, value);
+        }
+        private string company;
+        public string Company
+        {
+            get => company;
+            set => SetProperty(ref company, value);
+        }
+        private string email;
+        public string Email
+        {
+            get => email;
+            set => SetProperty(ref email, value);
+        }
         public string ErrorMessage { get; set; }
 
         private ImageSource qrCode;
@@ -53,6 +77,16 @@ namespace SafeIn_Mobile.ViewModels
             _loginService = loginService ?? Locator.Current.GetService<ILoginService>();
             _navigationService = navigationService ?? Locator.Current.GetService<IRoutingService>();
         }
+
+        public async void SetUserDataToView()
+        {
+            var user = await _userService.GetUserFromSecureStorageAsync();
+            Email = user.Email;
+            Role = user.Role;
+            Company = user.Company;
+            UserName = user.UserName;
+        }
+
         public async void GenerateQrCodeAsync()
         {
             var email = await SecureStorage.GetAsync(Constants.Email);
