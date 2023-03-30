@@ -89,9 +89,6 @@ namespace SafeIn_Mobile.ViewModels
 
         public async void GenerateQrCodeAsync()
         {
-            var email = await SecureStorage.GetAsync(Constants.Email);
-            var accessRights = "User";
-
             // refresh tokens
             var refreshTokenResult = await _loginService.RefreshTokensAsync();
             if (!refreshTokenResult.Success)
@@ -102,14 +99,6 @@ namespace SafeIn_Mobile.ViewModels
             }
             var accessToken = refreshTokenResult.AccessToken;
 
-            Dictionary<string, string> value = new Dictionary<string, string>
-            {
-                { "email", email },
-                { "access_rights", accessRights },
-                { "access_token",accessToken }
-            };
-
-            var content = JsonConvert.SerializeObject(value);
             try
             {
                 Color color1 = Color.Black; // replace with your desired color
@@ -121,7 +110,7 @@ namespace SafeIn_Mobile.ViewModels
                 byte[] colorBytes2 = BitConverter.GetBytes(argb2);
 
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(content, QRCodeGenerator.ECCLevel.L);
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(accessToken, QRCodeGenerator.ECCLevel.L);
                 PngByteQRCode qRCode = new PngByteQRCode(qrCodeData);
                 byte[] qrCodeBytes = qRCode.GetGraphic(10, colorBytes1, colorBytes2);
                 QrCode = ImageSource.FromStream(() => new MemoryStream(qrCodeBytes));
