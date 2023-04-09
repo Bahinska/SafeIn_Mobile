@@ -18,9 +18,7 @@ namespace SafeIn_Mobile.Views
         public UserPage()
         {
             InitializeComponent();
-            var email = SecureStorage.GetAsync("email").Result;
-            var name = SecureStorage.GetAsync("password").Result;
-            ViewModel = new UserViewModel(name, email);
+            ViewModel = new UserViewModel();
 
             // Set the BindingContext of the page to the ViewModel
             BindingContext = ViewModel;
@@ -33,6 +31,7 @@ namespace SafeIn_Mobile.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            ViewModel.SetUserDataToView();
             ViewModel.GenerateQrCodeAsync();
 
             var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;

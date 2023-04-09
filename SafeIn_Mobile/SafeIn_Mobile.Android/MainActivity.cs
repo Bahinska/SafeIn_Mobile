@@ -4,6 +4,9 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using Android.Views;
+using SafeIn_Mobile.Services;
+using Splat;
+using SafeIn_Mobile.Droid.Services;
 
 namespace SafeIn_Mobile.Droid
 {
@@ -20,6 +23,8 @@ namespace SafeIn_Mobile.Droid
             //SetStatusBarColor(Android.Graphics.Color.Transparent);
             LoadApplication(new App());
             Window.SetStatusBarColor(Android.Graphics.Color.Argb(255, 136, 0, 214));
+            Locator.CurrentMutable.Register(() => new AndroidToastService(), typeof(IToastService));
+
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

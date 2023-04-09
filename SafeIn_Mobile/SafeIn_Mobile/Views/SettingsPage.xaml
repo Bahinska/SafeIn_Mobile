@@ -60,7 +60,6 @@
                 <Setter Property="CornerRadius" Value="25"></Setter>
                 <Setter Property="BorderColor" Value="White"></Setter>
                 <Setter Property="BorderWidth" Value="1"></Setter>
-                
             </Style>
 
             <Style x:Key="SaveButton" TargetType="Button" BasedOn="{StaticResource Button}">
@@ -106,9 +105,9 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-
         <ScrollView>
             <StackLayout>
+            
                 <Label Style="{StaticResource Title}">Edit Account</Label>
 
                 <Frame Style="{StaticResource UserImage}">
@@ -148,6 +147,5 @@
 
             </StackLayout>
         </ScrollView>
-        
     </ContentPage.Content>
 </ContentPage>
