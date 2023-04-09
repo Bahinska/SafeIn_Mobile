@@ -14,11 +14,9 @@ namespace SafeIn_Mobile.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
+    
+        public string Email { get => email; set => SetProperty(ref email, value); }
 
-        public string Email
-        {
-            get => email; set => SetProperty(ref email, value);
-        }
         public string Password { get => password; set => SetProperty(ref password, value); }
         public string EmailMessage { get => emailMessage; set => SetProperty(ref emailMessage, value); }
         public string PasswordMessage { get => passwordMessage; set => SetProperty(ref passwordMessage, value); }
@@ -41,8 +39,10 @@ namespace SafeIn_Mobile.ViewModels
             Title = "Login Page";
 
             //delete
-            Email = "gustaf@lnu.edu";
-            Password = "Gustaf-123";
+            
+            Email = "roman@gmail.com";
+            Password = "Roman-123";
+
 
             OnPropertyChanged();
             LoginCommand = new AsyncCommand(Login);

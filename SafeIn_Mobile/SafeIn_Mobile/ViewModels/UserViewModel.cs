@@ -101,11 +101,11 @@ namespace SafeIn_Mobile.ViewModels
 
             try
             {
-                Color color1 = Color.Black; // replace with your desired color
+                Color color1 = Color.Black; 
                 int argb = color1.ToArgb();
-                byte[] colorBytes1 = BitConverter.GetBytes(argb);// 4 bytes for red, green, blue, and alpha
+                byte[] colorBytes1 = BitConverter.GetBytes(argb);
 
-                Color color2 = Color.White; // replace with your desired color
+                Color color2 = Color.White;
                 int argb2 = color2.ToArgb();
                 byte[] colorBytes2 = BitConverter.GetBytes(argb2);
 
