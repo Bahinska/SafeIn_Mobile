@@ -4,7 +4,7 @@
              x:Class="SafeIn_Mobile.Views.UserPage"
              Shell.NavBarIsVisible="False"
              xmlns:viewmodels="clr-namespace:SafeIn_Mobile.ViewModels"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" x:DataType="viewmodels:UserViewModel"
              BackgroundImageSource="BlurBackground"
              >
 
@@ -14,11 +14,7 @@
             <Style x:Key="UserImage" TargetType="Frame">
                 <Setter Property="CornerRadius" Value="100"></Setter>
                 <Setter Property="HorizontalOptions" Value="CenterAndExpand"></Setter>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"></Setter>
-                <Setter Property="WidthRequest" Value="120"></Setter>
-                <Setter Property="HeightRequest" Value="120"></Setter>
                 <Setter Property="Padding" Value="0"></Setter>
-                <Setter Property="Margin" Value="0,30,0,0"></Setter>
             </Style>
 
             <Style x:Key="Username" TargetType="Label">
@@ -33,16 +29,14 @@
                 <Setter Property="FontSize" Value="24"></Setter>
                 <Setter Property="FontFamily" Value="Montserrat-Regular"></Setter>
                 <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
-                <Setter Property="Margin" Value="0,-10,0,0"></Setter>
             </Style>
 
             <Style x:Key="Email" TargetType="Label">
                 <Setter Property="FontFamily" Value="Montserrat-Regular"></Setter>
                 <Setter Property="TextColor" Value="Black"></Setter>
-                <Setter Property="Margin" Value="0,0,0,10"></Setter>
+                <Setter Property="Margin" Value="0,30,0,0"></Setter>
                 <Setter Property="FontSize" Value="24"></Setter>
                 <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
-                <Setter Property="VerticalTextAlignment" Value="End"></Setter>
             </Style>
 
         </ResourceDictionary>
@@ -51,36 +45,33 @@
     
     <ContentPage.Content>
 
-        <Grid RowSpacing="0" ColumnSpacing="0">
+        <Grid>
             <Grid.RowDefinitions>
-
-                <RowDefinition Height="160" />
-                <RowDefinition Height="60" />
-                <RowDefinition Height="45" />
-                <RowDefinition Height="75" />
-                <RowDefinition Height="290" />
-                <RowDefinition Height="40" />
-                <RowDefinition Height="40" />
-                
+                <RowDefinition Height="0.37*" />
+                <RowDefinition Height="0.63*" />
             </Grid.RowDefinitions>
-            <Frame Style="{StaticResource UserImage}">
-                <Image Source="userimage"></Image>
-            </Frame>
-            
-            
-            <Label Style="{StaticResource Username}" Grid.Row="1" Text="Username" />
-            <Label Style="{StaticResource Position}" Grid.Row="2" Text="CEO" />
 
-            <BoxView BackgroundColor="White" CornerRadius="25,25,0,0" Grid.Row="3" Grid.RowSpan="5">
+            <StackLayout Spacing="0">
+                <Frame x:Name="UserImage"  Style="{StaticResource UserImage}" >
+                    <Image Source="userimage"></Image>
+                </Frame>
+
+                <Label x:Name="Username" Style="{StaticResource Username}" Text="Username" />
+                <Label x:Name="Position" Style="{StaticResource Position}" Text="CEO" />
+            </StackLayout>
+
+            <BoxView CornerRadius="25,25,0,0" Grid.Row="1">
             </BoxView>
 
-            <Label Style="{StaticResource Email}" Grid.Row="3" Text="{Binding Email}" />
-            <Image Grid.Row="4" Source="{Binding QrCode}" />
+            <StackLayout Grid.Row="1" Spacing="0">
+                <Label x:Name="EmailLabel" Style="{StaticResource Email}" Text="{Binding Email}" />
+                <Image x:Name="QrCode" Source="{Binding QrCode}" />
 
-            <Label FontFamily="Montserrat-Regular" TextColor="Black" HorizontalTextAlignment="Center" Grid.Row="5" Text="QR code will expire in:" FontSize="24" />
-            <Label FontFamily="Montserrat-Bold" TextColor="Black" HorizontalTextAlignment="Center" Grid.Row="6" Text="{Binding TimeRemaining}" FontSize="36"  />
-            <Label Text="{Binding ErrorMessage}" FontSize="Large" />
-
+                <Label x:Name="QrCodeTimerTitle" FontFamily="Montserrat-Regular" TextColor="Black" HorizontalTextAlignment="Center" Text="QR code will expire in:" />
+                <Label x:Name="QrCodeTimer" FontFamily="Montserrat-Bold" TextColor="Black" Padding="0,-8,0,0" HorizontalTextAlignment="Center" Text="{Binding TimeRemaining}" />
+                <Label Text="{Binding ErrorMessage}" FontSize="Large" />
+            </StackLayout>
+            
         </Grid>
        
 

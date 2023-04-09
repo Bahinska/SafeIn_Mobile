@@ -10,22 +10,26 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            
-            <Style x:Key="LogInButton" TargetType="Button">
-                <Setter Property="Margin" Value="40,0,40,0"></Setter>
-                <Setter Property="TextColor" Value="Black"></Setter>
-                <Setter Property="FontSize" Value="24"></Setter>
-                <Setter Property="CornerRadius" Value="25"></Setter>
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" >
-                            <GradientStop Color="#9900FF47" Offset="0.0" />
-                            <GradientStop Color="#99D9D9D9" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Setter.Value>
-                </Setter>
+
+            <Style x:Key="LabelBold" TargetType="Label">
+                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
             </Style>
-            
+
+            <Style x:Key="HelloText" TargetType="controls:GradientLabel">
+                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
+                <Setter Property="TextColor1" Value="#1E007A"></Setter>
+                <Setter Property="TextColor2" Value="#8400D1"></Setter>
+                <Setter Property="FontSize" Value="42"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+            </Style>
+
+            <Style x:Key="WelcomeLabel" TargetType="Label" BasedOn="{StaticResource LabelBold}">
+                <Setter Property="Margin" Value="0,-10,0,0"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontSize" Value="42"></Setter>
+            </Style>
+
             <Style x:Key="LogInBackgroundGradient" TargetType="BoxView">
                 <Setter Property="Background">
                     <Setter.Value>
@@ -35,111 +39,111 @@
                         </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="CornerRadius" Value="25,25,0,0"></Setter>
             </Style>
 
-            <Style x:Key="HelloText" TargetType="controls:GradientLabel">
-                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
-                <Setter Property="TextColor1" Value="#1E007A"></Setter>
-                <Setter Property="TextColor2" Value="#8400D1"></Setter>
-                <Setter Property="VerticalTextAlignment" Value="End"></Setter>
-                <Setter Property="FontSize" Value="42"></Setter>
-                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+            <Style x:Key="BoxBorder" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="Transparent"></Setter>
+                <Setter Property="BorderColor" Value="#99ffffff"></Setter>
+                <Setter Property="CornerRadius" Value="25"></Setter>
+                <Setter Property="Margin" Value="0,0,0,-25"></Setter>
             </Style>
 
-            <Style x:Key="WelcomeLabel" TargetType="Label">
-                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
-                <Setter Property="TextColor" Value="White"></Setter>
+            <Style x:Key="LogInTitle" TargetType="Label" BasedOn="{StaticResource LabelBold}">
                 <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
-                <Setter Property="FontSize" Value="42"></Setter>
-            </Style>
-
-            <Style x:Key="LogInTitle" TargetType="Label">
-                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
-                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
-                <Setter Property="VerticalTextAlignment" Value="Center"></Setter>
-                <Setter Property="Grid.Row" Value="2"></Setter>
                 <Setter Property="FontSize" Value="24"></Setter>
                 <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="Margin" Value="0,20,0,20"></Setter>
             </Style>
 
-
-            <Style x:Key="EntryTitle" TargetType="Label">
-                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
+            <Style x:Key="EntryTitle" TargetType="Label" BasedOn="{StaticResource LabelBold}">
                 <Setter Property="FontSize" Value="16"></Setter>
                 <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="Grid.Row" Value="0"></Setter>
             </Style>
 
             <Style x:Key="Entry" TargetType="Entry">
                 <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
                 <Setter Property="TextColor" Value="#303030"></Setter>
-                <Setter Property="Margin" Value="-3,0,0,0"></Setter>
+                <Setter Property="Margin" Value="-3,-5,0,0"></Setter>
                 <Setter Property="VerticalTextAlignment" Value="Center"></Setter>
                 <Setter Property="FontSize" Value="16"></Setter>
                 <Setter Property="ClearButtonVisibility" Value="WhileEditing"></Setter>
-                <Setter Property="Grid.Row" Value="1"></Setter>
             </Style>
 
             <Style x:Key="Message" TargetType="Label">
                 <Setter Property="FontFamily" Value="Montserrat-Regular"></Setter>
-                <Setter Property="Grid.Row" Value="2"></Setter>
-                <Setter Property="VerticalTextAlignment" Value="End"></Setter>
             </Style>
-                  
 
+            <Style x:Key="LogInButton" TargetType="Button">
+                <Setter Property="FontFamily" Value="Montserrat-Bold"></Setter>
+                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="FontSize" Value="24"></Setter>
+                <Setter Property="CornerRadius" Value="25"></Setter>
+                <Setter Property="HeightRequest" Value="70"></Setter>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" >
+                            <GradientStop Color="#9900FF47" Offset="0.0" />
+                            <GradientStop Color="#99D9D9D9" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="OtherInfoLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="Montserrat-Regular"></Setter>
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="Margin" Value="0,5,0,0"></Setter>
+                <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+            </Style>
 
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid>
+        <Grid RowSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="140" />
-                <RowDefinition Height="140" />
-                <RowDefinition Height="75" />
-                <RowDefinition Height="0.7*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="0.5*" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="0.38*" />
+                <RowDefinition Height="0.62*" />
             </Grid.RowDefinitions>
 
-            <controls:GradientLabel Style="{StaticResource HelloText}" Grid.Row="0" Text="Hello"/>
-            
-            <Label Style="{StaticResource WelcomeLabel}" Grid.Row="1" Text="Welcome back!"/>
+            <StackLayout VerticalOptions="Center">
+                <controls:GradientLabel Style="{StaticResource HelloText}" Text="Hello"/>
+                <Label Style="{StaticResource WelcomeLabel}" Text="Welcome back!"/>
+            </StackLayout>
 
-            <Frame BackgroundColor="Transparent" BorderColor="#99ffffff" CornerRadius="25" Margin="0,0,0,-25"  Grid.Row="2" Grid.RowSpan="5"></Frame>
+            <Frame Style="{StaticResource BoxBorder}" Grid.Row="1"/>
+            <BoxView Style="{StaticResource LogInBackgroundGradient}" Grid.Row="1"/>
 
-            <BoxView Style="{StaticResource LogInBackgroundGradient}" CornerRadius="25,25,0,0" Grid.Row="2" Grid.RowSpan="5">
-            </BoxView>
+            <StackLayout Grid.Row="1" Spacing="0">
 
-            <Label Style="{StaticResource LogInTitle}" Text="Log In"/>
+                <Label Style="{StaticResource LogInTitle}" Text="Log In"/>
 
-            <Grid Grid.Row="3" RowSpacing="0" ColumnSpacing="0" Margin="50,0,50,0" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="20" />
-                </Grid.RowDefinitions>
-                <Label Style="{StaticResource EntryTitle}" Text="Email"/>
-                <Entry Style="{StaticResource Entry}" Text="{Binding Email, Mode=TwoWay}" Placeholder="Email"/>
-                <Label Style="{StaticResource Message}" Text="{Binding EmailMessage, Mode=TwoWay}"/>
-            </Grid>
+                <StackLayout Margin="50,0,50,0" Spacing="0">
+                    <Label Style="{StaticResource EntryTitle}" Text="Email"/>
+                    <Entry Style="{StaticResource Entry}" Text="{Binding Email, Mode=TwoWay}" Placeholder="Email"/>
+                    <Label Style="{StaticResource Message}" Text="{Binding EmailMessage, Mode=TwoWay}"/>
+                </StackLayout>
 
-            <Grid Grid.Row="4" RowSpacing="0" ColumnSpacing="0" Margin="50,0,50,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="20" />
-                </Grid.RowDefinitions>
-                <Label Style="{StaticResource EntryTitle}"  Text="Password"/>
-                <Entry Style="{StaticResource Entry}" Text="{Binding Password}" IsPassword="True" Placeholder="Password"/>
-                <Label Style="{StaticResource Message}" Text="{Binding PasswordMessage, Mode=TwoWay}"/>
-                <Label Style="{StaticResource Message}" Text="{Binding CredentialsNotValid, Mode=TwoWay}"/>
-            </Grid>
+                <StackLayout Margin="50,0,50,0" Spacing="0">
+                    <Label Style="{StaticResource EntryTitle}" Text="Password"/>
+                    <Entry Style="{StaticResource Entry}" Text="{Binding Password}" 
+                           IsPassword="True" Placeholder="Password"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Style="{StaticResource Message}" Text="{Binding PasswordMessage, Mode=TwoWay}"/>
+                        <Label Style="{StaticResource Message}" Text="{Binding CredentialsNotValid, Mode=TwoWay}"/>
+                    </Grid>
 
-            <Button FontFamily="Montserrat-Bold" x:Name="LogInButton" Clicked="ButtonClickedEffect" Grid.Row="5" Style="{StaticResource LogInButton}" Text="Log In" Command ="{Binding LoginCommand}"/>
-            <Label FontFamily="Montserrat-Regular" Grid.Row="6" TextColor="White" Margin="0,5,0,0" HorizontalTextAlignment="Center" FontSize="12"  Text="Don’t have an account? Contact your provider"/>
+                </StackLayout>
 
+                <Button x:Name="LogInButton" Clicked="ButtonClickedEffect"
+                    Style="{StaticResource LogInButton}" Text="Log In" Command ="{Binding LoginCommand}"/>
+                <Label x:Name="OtherInfoLabel" Style="{StaticResource OtherInfoLabel}" Text="Don’t have an account? Contact your provider"/>
+                
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
