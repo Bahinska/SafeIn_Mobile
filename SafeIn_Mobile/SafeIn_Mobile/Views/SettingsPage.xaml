@@ -114,24 +114,24 @@
                     <Image Source="userimage"></Image>
                 </Frame>
 
-                <Label Style="{StaticResource Label}">Full name</Label>
+                <Label Style="{StaticResource Label}">User name</Label>
                 <Frame Style="{StaticResource FrameStyle}">
-                    <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="Jane Doe"></controls:CustomEntry>
+                    <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding UserName, Mode=TwoWay}"></controls:CustomEntry>
                 </Frame>
 
                 <Label Style="{StaticResource Label}">Email</Label>
                 <Frame Style="{StaticResource FrameStyle}">
-                    <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="janedoe@gmail.com"></controls:CustomEntry>
+                    <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding Email, Mode=TwoWay}"></controls:CustomEntry>
                 </Frame>
 
-                <Label Style="{StaticResource Label}">Position</Label>
+                <Label Style="{StaticResource Label}">Current password</Label>
                 <Frame Style="{StaticResource FrameStyle}" BackgroundColor="White">
-                    <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="CEO SafeOut"></controls:CustomEntry>
+                    <controls:CustomEntry Style="{StaticResource EntryStyle}" IsPassword="True" Text="{Binding CurrentPassword, Mode=TwoWay}" Placeholder="******"></controls:CustomEntry>
                 </Frame>
 
-                <Label Style="{StaticResource Label}">Password</Label>
+                <Label Style="{StaticResource Label}">New password</Label>
                 <Frame Style="{StaticResource FrameStyle}" BackgroundColor="White">
-                    <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="******"></controls:CustomEntry>
+                    <controls:CustomEntry Style="{StaticResource EntryStyle}" IsPassword="True" Text="{Binding NewPassword, Mode=TwoWay}" Placeholder="******"></controls:CustomEntry>
                 </Frame>
 
                 <Grid ColumnSpacing="10" Margin="50,20,50,0" HeightRequest="46">
@@ -139,8 +139,8 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Button Style="{StaticResource SaveButton}" Text="Save Changes"/>
-                    <Button Style="{StaticResource DiscardButton}" Grid.Column="1" Text="Discard Changes"/>
+                    <Button Style="{StaticResource SaveButton}" Command="{Binding SaveChangesCommand}" Text="Save Changes"/>
+                    <Button Style="{StaticResource DiscardButton}" Command="{Binding DiscardChangesCommand}" Grid.Column="1" Text="Discard Changes"/>
                 </Grid>
 
                 <Button x:Name="LogOutButton" Style="{StaticResource LogOutButton}" Text="Log Out" Command="{Binding LogoutCommand}"/>

@@ -56,8 +56,8 @@
                     <Image Source="userimage"></Image>
                 </Frame>
 
-                <Label x:Name="Username" Style="{StaticResource Username}" Text="Username" />
-                <Label x:Name="Position" Style="{StaticResource Position}" Text="CEO" />
+                <Label x:Name="Username" Style="{StaticResource Username}" Text="{Binding UserName}" />
+                <Label x:Name="Position" Style="{StaticResource Position}" Text="{Binding Role}" />
             </StackLayout>
 
             <BoxView CornerRadius="25,25,0,0" Grid.Row="1">
