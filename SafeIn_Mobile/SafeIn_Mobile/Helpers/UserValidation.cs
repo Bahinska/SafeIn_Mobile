@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace SafeIn_Mobile.Helpers
 {
@@ -28,6 +29,23 @@ namespace SafeIn_Mobile.Helpers
         {
 
             return !string.IsNullOrEmpty(password);
+        }
+        public static async Task<bool> UserNameValidAsync(string userName)
+        {
+
+            if (string.IsNullOrWhiteSpace(userName))
+                return false;
+
+            try
+            {
+                // Use regular expression to validate email format
+                return Regex.IsMatch(userName, @"^[a-z0-9]{5,10}$");
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                // Regex took too long to execute, handle the error here
+                return false;
+            }
         }
     }
 }

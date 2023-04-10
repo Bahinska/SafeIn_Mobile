@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -88,6 +89,22 @@ namespace SafeIn_Mobile.ViewModels
         }
         async Task SaveChanges()
         {
+            // validate username and email
+            List<Exception> errors = new List<Exception>();
+            if(!await UserValidation.UserNameValidAsync(UserName))
+            {
+                errors.Add(new Exception("User name not valid"));
+            }
+            if (!await UserValidation.EmailValidAsync(Email))
+            {
+                errors.Add(new Exception("Email not valid"));
+            }
+            if(errors.Count > 0)
+            {
+                toastService.ShowToast("Incorrect fields");
+                return;
+            }
+
             // create userUpdateRequest
             var updateUser = new UserUpdate { UserName = UserName, Email = Email, Password = NewPassword, CurrentPassword = CurrentPassword };
             // update user

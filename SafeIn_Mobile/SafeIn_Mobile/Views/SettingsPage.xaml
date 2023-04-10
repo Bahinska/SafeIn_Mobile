@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SafeIn_Mobile.Views.SettingsPage"
              Shell.NavBarIsVisible="False" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:controls="clr-namespace:SafeIn_Mobile.CustomStyle"
              BackgroundImageSource="BlurBackground">
 
@@ -100,7 +101,9 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
+            <Style x:Key="InvalidStyle" TargetType="controls:CustomEntry">
+                <Setter Property="TextColor" Value="Red"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -116,12 +119,24 @@
 
                 <Label Style="{StaticResource Label}">User name</Label>
                 <Frame Style="{StaticResource FrameStyle}">
-                    <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding UserName, Mode=TwoWay}"></controls:CustomEntry>
+                    <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding UserName, Mode=TwoWay}">
+                        <Entry.Behaviors>
+                            <xct:MultiValidationBehavior >
+                                <xct:TextValidationBehavior InvalidStyle="{StaticResource InvalidStyle}" RegexPattern="^[a-z0-9]{5,10}$" xct:MultiValidationBehavior.Error="User name not valid" IsValid="{Binding UserNameValid}"/>
+                            </xct:MultiValidationBehavior>
+                        </Entry.Behaviors>
+                    </controls:CustomEntry>
                 </Frame>
 
                 <Label Style="{StaticResource Label}">Email</Label>
                 <Frame Style="{StaticResource FrameStyle}">
-                    <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding Email, Mode=TwoWay}"></controls:CustomEntry>
+                    <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding Email, Mode=TwoWay}">
+                        <Entry.Behaviors>
+                            <xct:MultiValidationBehavior >
+                                <xct:EmailValidationBehavior InvalidStyle="{StaticResource InvalidStyle}" xct:MultiValidationBehavior.Error="Email not valid" IsValid="{Binding EmailValid}"/>
+                            </xct:MultiValidationBehavior>
+                        </Entry.Behaviors>
+                    </controls:CustomEntry>
                 </Frame>
 
                 <Label Style="{StaticResource Label}">Current password</Label>
@@ -133,6 +148,8 @@
                 <Frame Style="{StaticResource FrameStyle}" BackgroundColor="White">
                     <controls:CustomEntry Style="{StaticResource EntryStyle}" IsPassword="True" Text="{Binding NewPassword, Mode=TwoWay}" Placeholder="******"></controls:CustomEntry>
                 </Frame>
+                <Label Style="{StaticResource Label}" Text="{Binding ErrorMessage}"/>
+
 
                 <Grid ColumnSpacing="10" Margin="50,20,50,0" HeightRequest="46">
                     <Grid.ColumnDefinitions>
