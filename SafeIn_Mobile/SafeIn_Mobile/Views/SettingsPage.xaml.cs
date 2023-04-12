@@ -23,7 +23,7 @@ namespace SafeIn_Mobile.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
+            ViewModel.GetOriginalProperties();
             var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
             var ViewportHeight = mainDisplayInfo.Height / mainDisplayInfo.Density;
 

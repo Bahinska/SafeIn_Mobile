@@ -39,7 +39,7 @@ namespace SafeIn_Mobile.Helpers
             try
             {
                 // Use regular expression to validate email format
-                return Regex.IsMatch(userName, @"^[a-z0-9]{5,10}$");
+                return Regex.IsMatch(userName, @"^[A-Za-z0-9]{5,10}$");
             }
             catch (RegexMatchTimeoutException)
             {
