@@ -12,9 +12,7 @@ using Android.Widget;
 using SafeIn_Mobile.Droid.Services;
 using SafeIn_Mobile.Services;
 using Xamarin.Forms;
-
 [assembly: Dependency(typeof(ExitService))]
-
 namespace SafeIn_Mobile.Droid.Services
 {
     public class ExitService : IExitService
