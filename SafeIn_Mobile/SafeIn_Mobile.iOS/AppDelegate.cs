@@ -28,6 +28,7 @@ namespace SafeIn_Mobile.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
             Locator.CurrentMutable.Register(() => new ToastServiceIOS(), typeof(IToastService));
+            Locator.CurrentMutable.Register(() => new ExitService(), typeof(IExitService));
 
             return base.FinishedLaunching(app, options);
         }

@@ -164,9 +164,21 @@ namespace SafeIn_Mobile.Services
             }
         }
 
-        Task<RevokeTokensResult> ILoginService.RevokeTokens()
+        public async Task<ApiHealthCheckResult> ApiHealthCheck()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await _client.GetAsync("/healthcheck");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiHealthCheckResult { IsRunning=false};
+                }
+                return new ApiHealthCheckResult { IsRunning = true };
+            }
+            catch (Exception)
+            {
+                return new ApiHealthCheckResult { IsRunning = false };
+            }
         }
     }
 }
