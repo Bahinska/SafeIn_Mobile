@@ -26,6 +26,7 @@
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
     <PackageReference Include="Splat" Version="14.6.8" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.5" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
   </ItemGroup>

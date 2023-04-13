@@ -38,10 +38,9 @@ namespace SafeIn_Mobile.ViewModels
             _userService = userService ?? Locator.Current.GetService<IUserService>();
             Title = "Login Page";
 
-            //delete
-            
-            Email = "roman@gmail.com";
-            Password = "Roman-123";
+           
+            //Email = "roman@gmail.com";
+            //Password = "Roman-123";
 
 
             OnPropertyChanged();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -75,6 +76,18 @@ namespace SafeIn_Mobile.ViewModels
             get => errorMessage;
             set => SetProperty(ref errorMessage, value);
         }
+        private string userNameValid;
+        public string UserNameValid
+        {
+            get => userNameValid;
+            set => SetProperty(ref userNameValid, value);
+        }
+        private string emailValid;
+        public string EmailValid
+        {
+            get => emailValid;
+            set => SetProperty(ref emailValid, value);
+        }
         public SettingsViewModel(IRoutingService navigationService = null, ILoginService loginService = null, IUserService userService = null)
         {
             _navigationService = navigationService ?? Locator.Current.GetService<IRoutingService>();
@@ -88,8 +101,35 @@ namespace SafeIn_Mobile.ViewModels
         }
         async Task SaveChanges()
         {
+            ClearErrors();
+            // validate username and email
+            List<Exception> errors = new List<Exception>();
+            if (!await UserValidation.UserNameValidAsync(UserName))
+            {
+                errors.Add(new Exception("User name not valid"));
+                UserNameValid = "Only numbers and letters, length 5-10";
+            }
+            if (!await UserValidation.EmailValidAsync(Email))
+            {
+                errors.Add(new Exception("Email not valid"));
+                EmailValid = "Email not valid";
+            }
+            if (errors.Count > 0)
+            {
+                toastService.ShowToast("Incorrect fields");
+                return;
+            }
+            // check if user wants to update password
+            UserUpdate updateUser;
+            if (NewPassword.Equals(""))
+            {
+                updateUser = new UserUpdate { UserName = UserName, Email = Email, Password = CurrentPassword, CurrentPassword = CurrentPassword };
+            }
+            else
+            {
+                 updateUser = new UserUpdate { UserName = UserName, Email = Email, Password = NewPassword, CurrentPassword = CurrentPassword };
+            }
             // create userUpdateRequest
-            var updateUser = new UserUpdate { UserName = UserName, Email = Email, Password = NewPassword, CurrentPassword = CurrentPassword };
             // update user
             var userUpdateResult = await _userService.UserUpdate(updateUser);
             // validate update response
@@ -131,6 +171,7 @@ namespace SafeIn_Mobile.ViewModels
         }
         public async Task GetOriginalProperties()
         {
+            ClearErrors();
             // set inputs to original data from securestorage
             var user = await _userService.GetUserFromSecureStorageAsync();
             Email = user.Email;
@@ -139,6 +180,12 @@ namespace SafeIn_Mobile.ViewModels
             Role = user.Role;
             CurrentPassword = "";
             NewPassword = "";
+        }
+        public void ClearErrors()
+        {
+            UserNameValid = null;
+            EmailValid = null;
+            ErrorMessage = null;
         }
         async Task Logout()
         {
