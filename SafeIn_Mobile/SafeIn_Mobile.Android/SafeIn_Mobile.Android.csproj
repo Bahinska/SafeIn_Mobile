@@ -54,12 +54,13 @@
     <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
     <MandroidI18n />
-    <AndroidKeyStore>false</AndroidKeyStore>
+    <AndroidKeyStore>true</AndroidKeyStore>
     <AndroidSigningKeyStore>C:\Users\lepre\AppData\Local\Xamarin\Mono for Android\Keystore\safein\safein.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>safein</AndroidSigningStorePass>
-    <AndroidSigningKeyAlias>constanta</AndroidSigningKeyAlias>
-    <AndroidSigningKeyPass>constanta</AndroidSigningKeyPass>
-    <AndroidApkSignerAdditionalArguments>mobile</AndroidApkSignerAdditionalArguments>
+    <AndroidSigningKeyAlias>safein</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>safein</AndroidSigningKeyPass>
+    <AndroidApkSignerAdditionalArguments>
+    </AndroidApkSignerAdditionalArguments>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidLinkTool>r8</AndroidLinkTool>
