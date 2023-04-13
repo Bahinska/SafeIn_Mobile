@@ -107,7 +107,7 @@ namespace SafeIn_Mobile.ViewModels
             if (!await UserValidation.UserNameValidAsync(UserName))
             {
                 errors.Add(new Exception("User name not valid"));
-                UserNameValid ="Only numbers and letters, length 5-10" ;
+                UserNameValid = "Only numbers and letters, length 5-10";
             }
             if (!await UserValidation.EmailValidAsync(Email))
             {
@@ -119,9 +119,17 @@ namespace SafeIn_Mobile.ViewModels
                 toastService.ShowToast("Incorrect fields");
                 return;
             }
-
+            // check if user wants to update password
+            UserUpdate updateUser;
+            if (NewPassword.Equals(""))
+            {
+                updateUser = new UserUpdate { UserName = UserName, Email = Email, Password = CurrentPassword, CurrentPassword = CurrentPassword };
+            }
+            else
+            {
+                 updateUser = new UserUpdate { UserName = UserName, Email = Email, Password = NewPassword, CurrentPassword = CurrentPassword };
+            }
             // create userUpdateRequest
-            var updateUser = new UserUpdate { UserName = UserName, Email = Email, Password = NewPassword, CurrentPassword = CurrentPassword };
             // update user
             var userUpdateResult = await _userService.UserUpdate(updateUser);
             // validate update response
