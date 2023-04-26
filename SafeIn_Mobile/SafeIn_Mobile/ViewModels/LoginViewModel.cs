@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
@@ -25,6 +26,8 @@ namespace SafeIn_Mobile.ViewModels
         private readonly IRoutingService _navigationService;
         private readonly IUserService _userService;
         private readonly ILoginService _loginService;
+        private readonly IToastService toastService;
+
         private string email;
         private string password;
         private string emailMessage;
@@ -37,8 +40,9 @@ namespace SafeIn_Mobile.ViewModels
             _loginService = loginService ?? Locator.Current.GetService<ILoginService>();
             _userService = userService ?? Locator.Current.GetService<IUserService>();
             Title = "Login Page";
+            toastService = Locator.Current.GetService<IToastService>();
 
-           
+
             //Email = "roman@gmail.com";
             //Password = "Roman-123";
 
@@ -52,20 +56,22 @@ namespace SafeIn_Mobile.ViewModels
             // validate data
             EmailMessage = "";
             PasswordMessage = "";
-            var email_correct = await UserValidation.EmailValidAsync(Email);
-            var password_correct = await UserValidation.PasswordValidAsync(Password);
-            if (!email_correct)
+            List<Exception> errors = new List<Exception>();
+            if (Email == null || Email.Equals(""))
             {
-                EmailMessage = Constants.EmailNotValidMessage;
+                EmailMessage = Constants.EmailEmptyMessage;
+                errors.Add(new Exception("Empty email"));
             }
-            if (!password_correct)
+            if (Password == null || Password.Equals(""))
             {
                 PasswordMessage = Constants.PasswordEmptyMessage;
+                errors.Add(new Exception("Empty password"));
             }
 
-            // cansle if credential not valid
-            if (!email_correct || !password_correct)
+            // cansle if credential not filled
+             if(errors.Count> 0)
             {
+                toastService.ShowToast("Not valid fields");
                 return;
             }
 
@@ -75,7 +81,9 @@ namespace SafeIn_Mobile.ViewModels
             {
                 // handle if login was unsuccessful.NavigationStack.Countl
                 CredentialsNotValid = AuthErrorMessages.UncorrectCredentials;
+                toastService.ShowToast("Password or email is wrong");
                 return;
+
             }
             App.IsLoggedIn = true;
             // save user in securestorage
@@ -84,6 +92,7 @@ namespace SafeIn_Mobile.ViewModels
             {
                 // logout and go to login page
                 _loginService.Logout();
+                toastService.ShowToast("Cannot login");
                 return;
             }
             var newUser = new User { UserName = userInfoResult.UserName, Password = Password, Email = userInfoResult.Email, Company = userInfoResult.Company, Role = userInfoResult.Company };
@@ -92,8 +101,12 @@ namespace SafeIn_Mobile.ViewModels
             {
                 // logout and go to login page
                 _loginService.Logout();
+                toastService.ShowToast("Cannot login");
                 return;
+
             }
+            Email = null;
+            Password= null;
             await _navigationService.NavigateTo($"///main/{nameof(UserPage)}");
         }
     }
