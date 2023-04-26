@@ -8,8 +8,9 @@ namespace SafeIn_Mobile.Services
 
         void Logout();
         Task<RefreshTokenResult> RefreshTokensAsync();
-        Task<RevokeTokensResult> RevokeTokens();
+        Task<RevokeResult> Revoke();
         Task<LoginResult> LoginAsync(string email, string password);
         Task<AccessCheckResult> AccessCheckAsync();
+        Task<ApiHealthCheckResult> ApiHealthCheck();
     }
 }

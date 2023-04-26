@@ -24,6 +24,7 @@ namespace SafeIn_Mobile.Droid
             LoadApplication(new App());
             Window.SetStatusBarColor(Android.Graphics.Color.Argb(255, 136, 0, 214));
             Locator.CurrentMutable.Register(() => new AndroidToastService(), typeof(IToastService));
+            Locator.CurrentMutable.Register(() => new ExitService(), typeof(IExitService));
 
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
