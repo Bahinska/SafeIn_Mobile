@@ -89,7 +89,7 @@
             </Style>
 
             <Style x:Key="LogOutButton" TargetType="Button" BasedOn="{StaticResource Button}">
-                <Setter Property="Margin" Value="50,10,50,0"></Setter>
+                <Setter Property="Margin" Value="50,10,50,40"></Setter>
                 <Setter Property="FontSize" Value="24"></Setter>
                 <Setter Property="HeightRequest" Value="60"></Setter>
                 <Setter Property="Background">
@@ -104,6 +104,13 @@
             <Style x:Key="InvalidStyle" TargetType="controls:CustomEntry">
                 <Setter Property="TextColor" Value="Red"/>
             </Style>
+
+            <Style x:Key="Message" TargetType="Label">
+                <Setter Property="Margin" Value="54,0,54,0"></Setter>
+                <Setter Property="TextColor" Value="Red"></Setter>
+                <Setter Property="FontFamily" Value="Montserrat-Regular"></Setter>
+            </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -122,13 +129,13 @@
                     <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding UserName, Mode=TwoWay}">
                     </controls:CustomEntry>
                 </Frame>
-                <Label Text="{Binding UserNameValid,Mode=TwoWay}"></Label>
+                <Label Style="{StaticResource Message}" Text="{Binding UserNameValid,Mode=TwoWay}"></Label>
                 <Label Style="{StaticResource Label}">Email</Label>
                 <Frame Style="{StaticResource FrameStyle}">
                     <controls:CustomEntry Style="{StaticResource EntryStyle}" Text="{Binding Email, Mode=TwoWay}">
                     </controls:CustomEntry>
                 </Frame>
-                <Label  Text="{Binding EmailValid, Mode=TwoWay}"></Label>
+                <Label Style="{StaticResource Message}" Text="{Binding EmailValid, Mode=TwoWay}"></Label>
 
                 <Label Style="{StaticResource Label}">Current password</Label>
                 <Frame Style="{StaticResource FrameStyle}" BackgroundColor="White">
@@ -139,7 +146,7 @@
                 <Frame Style="{StaticResource FrameStyle}" BackgroundColor="White">
                     <controls:CustomEntry Style="{StaticResource EntryStyle}" IsPassword="True" Text="{Binding NewPassword, Mode=TwoWay}" Placeholder="******"></controls:CustomEntry>
                 </Frame>
-                <Label Style="{StaticResource Label}" Text="{Binding ErrorMessage}"/>
+                <Label Style="{StaticResource Message}" Text="{Binding ErrorMessage}"/>
 
 
                 <Grid ColumnSpacing="10" Margin="50,20,50,0" HeightRequest="46">

@@ -24,13 +24,6 @@ namespace SafeIn_Mobile.Views
         {
             base.OnAppearing();
             ViewModel.GetOriginalProperties();
-            var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
-            var ViewportHeight = mainDisplayInfo.Height / mainDisplayInfo.Density;
-
-            if (ViewportHeight <= 740)
-            {
-                LogOutButton.Margin = new Thickness(50, 0, 50, 40);
-            }
         }
 
         internal SettingsViewModel ViewModel { get; set; } = Locator.Current.GetService<SettingsViewModel>();
