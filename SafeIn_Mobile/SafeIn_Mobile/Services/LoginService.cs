@@ -168,7 +168,7 @@ namespace SafeIn_Mobile.Services
         {
             try
             {
-                var response = await _client.GetAsync("/healthcheck");
+                var response = await _client.GetAsync("/Auth/healthCheck");
                 if (!response.IsSuccessStatusCode)
                 {
                     return new ApiHealthCheckResult { IsRunning=false};
