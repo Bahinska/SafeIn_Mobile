@@ -12,9 +12,10 @@ namespace SafeIn_Mobile.Helpers
         public const string Password = "password";
         public const string User = "user";
         public const string EmailNotValidMessage= "Email is not valid";
+        public const string EmailEmptyMessage= "Empty email";
         public const string PasswordEmptyMessage= "Empty password";
         public const string QrCodeError= "Error occured during QrCode generation";
-        public const int QrCodeExpirationTime = 10000;
+        public const int QrCodeExpirationTime = 600;
 
 
         // connection

@@ -102,8 +102,13 @@ namespace SafeIn_Mobile.ViewModels
         async Task SaveChanges()
         {
             ClearErrors();
-            // validate username and email
+            // validate username, email and password
             List<Exception> errors = new List<Exception>();
+            if (CurrentPassword.Equals(""))
+            {
+                toastService.ShowToast("Current password required");
+                return;
+            }
             if (!await UserValidation.UserNameValidAsync(UserName))
             {
                 errors.Add(new Exception("User name not valid"));
@@ -113,7 +118,7 @@ namespace SafeIn_Mobile.ViewModels
             {
                 errors.Add(new Exception("Email not valid"));
                 EmailValid = "Email not valid";
-            }
+            }    
             if (errors.Count > 0)
             {
                 toastService.ShowToast("Incorrect fields");
@@ -136,7 +141,7 @@ namespace SafeIn_Mobile.ViewModels
             if (!userUpdateResult.Success)
             {
                 // write error message and return
-                ErrorMessage = userUpdateResult.ErrorMessage;
+                //ErrorMessage = userUpdateResult.ErrorMessage;
                 toastService.ShowToast(Constants.UserErrorUpdatedMessage);
                 return;
             }
@@ -146,6 +151,7 @@ namespace SafeIn_Mobile.ViewModels
             {
                 // logout and go to login page
                 await Logout();
+                toastService.ShowToast(Constants.UserErrorUpdatedMessage);
                 return;
             }
             // save user in securestorage
@@ -154,6 +160,7 @@ namespace SafeIn_Mobile.ViewModels
             {
                 // logout and go to login page
                 await Logout();
+                toastService.ShowToast(Constants.UserErrorUpdatedMessage);
                 return;
             }
             var newUser = new User { UserName = userInfoResult.UserName, Password = NewPassword, Email = userInfoResult.Email, Company = userInfoResult.Company, Role = userInfoResult.Company };
@@ -162,6 +169,7 @@ namespace SafeIn_Mobile.ViewModels
             {
                 // logout and go to login page
                 await Logout();
+                toastService.ShowToast(Constants.UserErrorUpdatedMessage);
                 return;
             }
             // set new data to properties
