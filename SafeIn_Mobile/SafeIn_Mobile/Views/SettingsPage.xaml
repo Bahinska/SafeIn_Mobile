@@ -52,6 +52,7 @@
                 <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
             </Style>
             <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Black"></Setter>
                 <Setter Property="HeightRequest" Value="46"></Setter>
                 <Setter Property="FontFamily" Value="Montserrat-Regular"></Setter>
             </Style>
